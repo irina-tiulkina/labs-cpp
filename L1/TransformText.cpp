@@ -12,18 +12,18 @@ std::string TransformText::GetTransformedText(const std::string& text, bool isIg
   std::vector<std::string> delimText = Split(text, ' ');
   std::vector<std::string> words;
 
-  for (int i = 0; i < delimText.size(); i++) { 
+  for (size_t i = 0; i < delimText.size(); i++) { 
 
     std::string wordDelim = isIgnoreSimbols ? GetWorgdWithoutSimbols(delimText[i]) : delimText[i];
 
     if (wordDelim.size() > words.size()) {
-      int addSize = delimText[i].size() - words.size();
+      size_t addSize = wordDelim.size() - words.size();
       for (int k = 0; k < addSize; k++) {
         words.push_back("");
       }
     }
 
-    for (int j = wordDelim.size()-1; j >= 0 ; j--) {
+    for (size_t j = wordDelim.size()-1; j >= 0 ; j--) {
       size_t indexWord = (wordDelim.size() - 1) - j;
       words[indexWord] += wordDelim[j];
     }
@@ -31,7 +31,7 @@ std::string TransformText::GetTransformedText(const std::string& text, bool isIg
 
   std::string str = "";
 
-  for (int i = 0; i < words.size(); i++) {
+  for (size_t i = 0; i < words.size(); i++) {
     str += (i == words.size() -1) ? words[i] : words[i] + ' ';
   }
 
