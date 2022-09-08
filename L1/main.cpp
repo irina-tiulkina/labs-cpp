@@ -63,7 +63,6 @@ std::string GetTextFromFile() {
   std::string str;
     str = sff_t::GetStringFromFile();
     return str;
-
 }
 
 std::string GetTextFromConsole() {
