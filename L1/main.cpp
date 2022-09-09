@@ -19,9 +19,12 @@
 std::string GetTextFromFile();
 std::string GetTextFromConsole();
 void SaveFile(const std::string& textResult);
-
+void InfoConsole();
 int main() {
   setlocale(LC_ALL, "Russian"); // Русская локализация консоли
+
+  InfoConsole();
+  
   const std::string fileNum = "1";
   const std::string ignoreSimbNum = "1";
 
@@ -76,6 +79,15 @@ std::string GetTextFromConsole() {
   line.pop_back();
 
   return line;
+}
+
+void InfoConsole() {
+  scf_t::StringToConsole("Лабораторная работа 1");
+  std::string zadacha = "Задача: Задан текст. Составить новый текст из букв заданного по принципу:\n первое слово нового текста состоит их последних букв слов заданного\n текста, второе слово из предпоследних букв и так далее.";
+  scf_t::StringToConsole(zadacha);
+  scf_t::StringToConsole("Автор: Тюлькина Ирина Павловна");
+  scf_t::StringToConsole("Группа: 494 Курс: 4");
+  scf_t::StringToConsole("В результате программы получаем текст");
 }
 
 void SaveFile(const std::string& textResult) {
