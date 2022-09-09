@@ -16,48 +16,80 @@
 #include "SimpleConsoleFunction.h"
 #include "SimpleFileFunctions.h"
 
+const std::string fileNum = "1";
+const std::string ignoreSimbNum = "1";
+const std::string exitProgrammNum = "1";
+
 std::string GetTextFromFile();
 std::string GetTextFromConsole();
 void SaveFile(const std::string& textResult);
 void InfoConsole();
+bool IsExitProgramm();
+
 int main() {
   setlocale(LC_ALL, "Russian"); // Русская локализация консоли
 
+  // 2.3.1 Информация о программе
   InfoConsole();
+
+  bool isStartProgramm = true;
+
+  // 2.3.2 Программа закольцована 
+  while (isStartProgramm) {
+    scf_t::StringToConsole("Введите " + fileNum + ", если ввод из файла. Если из консоли - любой другой символ/строку");
+    bool isInputDataFromFile = scf_t::StringFromConsoleByLine() == fileNum ? true : false;
+
+    std::string text;
+    try {
+      // 2.4.4.1 Вводить исходные данные из файла
+      text = isInputDataFromFile ? GetTextFromFile() : GetTextFromConsole();
+    }
+    catch (const char* msg) {
+      scf_t::ErrorTextToConsole(msg);
+      if (IsExitProgramm())
+        return;
+      else {
+        continue;
+      }
+    }
+
+    // 2.4.4.1 Сохранить исходные данные в файле (если консоль)
+    if (!isInputDataFromFile) {
+      scf_t::StringToConsole("Если хотетите сохранить исходные данные в файл введите " + fileNum + ", иначе любую другую букыу");
+      bool isInputDataSaveToFile = scf_t::StringFromConsoleByLine() == fileNum ? true : false;
+      if (isInputDataSaveToFile) {
+        SaveFile(text);
+      }
+    }
+
+    scf_t::StringToConsole("\nВведите " + ignoreSimbNum + ", если нужно игнорировать символы отличные от букв, иначе любой другой символ/строку");
+    bool isIgnoreSimbols = scf_t::StringFromConsoleByLine() == ignoreSimbNum ? true : false;
+
+    std::string transformedString = TransformText::GetTransformedText(text, isIgnoreSimbols);
+
+    scf_t::StringToConsole("\nПолученный текст:");
+    scf_t::StringToConsole(transformedString);
+
+    // 2.4.4.1 Сохранить резульат в файл
+    scf_t::StringToConsole("\nЕсли хотите сохранить в файл нажмите 1, иначе любую другую клавишу");
+    bool isResultDataSaveFile = scf_t::StringFromConsoleByLine() == fileNum ? true : false;
+    if (isResultDataSaveFile) {
+      SaveFile(transformedString);
+    }
+
+    //scf_t::StringToConsole("\nВыполнение программы завершено");
+
+    // 2.3.2 Закольцовывание, выбор пункта меню для завершения
+    isStartProgramm = IsExitProgramm();
+  }
   
-  const std::string fileNum = "1";
-  const std::string ignoreSimbNum = "1";
-
-  scf_t::StringToConsole("Введите " + fileNum + ", если ввод из файла. Если из консоли - любой другой символ/строку");
-  bool fromFile = scf_t::StringFromConsoleByLine() == fileNum ? true : false;
-
-  std::string text;
-  try {
-     text = fromFile? GetTextFromFile() : GetTextFromConsole();
-  }
-  catch (const char* msg) {
-    scf_t::ErrorTextToConsole( msg);
-    return 0;
-  }
-
-  scf_t::StringToConsole("\nВведите " + ignoreSimbNum +", если нужно игнорировать символы отличные от букв, иначе любой другой символ/строку");
-  bool isIgnoreSimbols = scf_t::StringFromConsoleByLine() == ignoreSimbNum ? true : false;
-
-  std::string transformedString = TransformText::GetTransformedText(text, isIgnoreSimbols);
-
-  scf_t::StringToConsole("\nПолученный текст:");
-  scf_t::StringToConsole(transformedString);
-
-  scf_t::StringToConsole("\nЕсли хотите сохранить в файл нажмите 1, иначе любую другую клавишу");
-  bool saveFile = scf_t::StringFromConsoleByLine() == fileNum ? true : false;
-  if (saveFile) {
-    SaveFile(transformedString);
-  }
-  
-
-  scf_t::StringToConsole("\nВыполнение программы завершено");
-  std::cin.get();
   return 0;
+}
+
+bool IsExitProgramm() {
+  scf_t::StringToConsole("Если хотите завершить программу нажмитие " + exitProgrammNum + ", иначе любой другой символ/строку");
+  bool isExit = scf_t::StringFromConsoleByLine() == exitProgrammNum ? true : false;
+  return isExit;
 }
 
 std::string GetTextFromFile() {
@@ -102,5 +134,6 @@ void SaveFile(const std::string& textResult) {
   }
   catch (const char* msg) {
     scf_t::ErrorTextToConsole(msg);
+    throw msg;
   }
 }
