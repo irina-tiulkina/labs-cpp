@@ -8,6 +8,9 @@ void scf_t::StringToConsole(const std::string& text)
 
 std::string scf_t::StringFromConsoleByLine()
 {
+  SetConsoleCP(1251);
+  SetConsoleOutputCP(1251);
+
   std::string str;
   std::getline(std::cin, str);
   return str;

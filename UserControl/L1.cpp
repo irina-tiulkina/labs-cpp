@@ -5,7 +5,11 @@ std::string L1::GetStrWithoutSimbols(const std::string& s, const char& c) const
 {
   std::string str = "";
   for (int i = 0; i < s.size(); i++) {
-    if ((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z') || s[i] == c) {
+    if ((s[i] >= 'a' && s[i] <= 'z') || 
+      (s[i] >= 'A' && s[i] <= 'Z') || 
+      s[i] == c || 
+      (s[i] >= 'à' && s[i] <= 'ÿ') || 
+      (s[i] >= 'À' && s[i] <= 'ß')) {
       str += s[i];
     }
     else {
