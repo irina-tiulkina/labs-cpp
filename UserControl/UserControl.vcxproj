@@ -21,10 +21,9 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{5346a4bb-95f0-4061-91b1-fe47e90853d1}</ProjectGuid>
-    <RootNamespace>GetTextInfosLib</RootNamespace>
+    <ProjectGuid>{a090758d-19ed-4aa9-b5f9-f94f5f34a79b}</ProjectGuid>
+    <RootNamespace>UserControl</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>GetTextInfosLib</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -113,6 +112,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>E:\Яндекс.Диск\YandexDisk\UNIVERS\7 семестр\ЛиПОАИС\Лабы\LabsCpp\ConsoleWorkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -130,6 +130,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>E:\Яндекс.Диск\YandexDisk\UNIVERS\7 семестр\ЛиПОАИС\Лабы\LabsCpp\ConsoleWorkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -141,21 +142,26 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
+    <ClInclude Include="L1.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="SimpleConsoleFunction.h" />
-    <ClInclude Include="SimpleFileFunctions.h" />
-    <ClInclude Include="StringTransform.h" />
+    <ClInclude Include="TaskInfo.h" />
+    <ClInclude Include="UserInterfaceClaim.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="L1.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="SimpleConsoleFunction.cpp" />
-    <ClCompile Include="SimpleFileFunctions.cpp" />
-    <ClCompile Include="StringTransform.cpp" />
+    <ClCompile Include="TaskInfo.cpp" />
+    <ClCompile Include="UserInterfaceClaim.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ConsoleWorkLib\ConsoleWorkLib.vcxproj">
+      <Project>{5346a4bb-95f0-4061-91b1-fe47e90853d1}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

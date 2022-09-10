@@ -1,14 +1,13 @@
 #include "pch.h"
 #include "SimpleFileFunctions.h"
+#include <wtypes.h>
+#include <minwinbase.h>
 
 
-const std::string sff_t::inputFilePath = "input.txt";
-const std::string sff_t::resutFilePath = "result.txt";
-
-void SimpleFileFunctions::SaveStringToFile(const std::string& text)
+void SimpleFileFunctions::SaveStringToFile(const std::string& text, const std::string& path)
 {
-  std::ofstream out;          // поток для записи
-  out.open(resutFilePath); // окрываем файл для записи
+  std::ofstream out; // поток для записи
+  out.open(path); // окрываем файл для записи
   if (out.is_open())
   {
     out << text << std::endl;
@@ -19,9 +18,9 @@ void SimpleFileFunctions::SaveStringToFile(const std::string& text)
   out.close();
 }
 
-std::string SimpleFileFunctions::GetStringFromFile()
+std::string SimpleFileFunctions::GetStringFromFile(const std::string& path)
 {
-  std::ifstream in(sff_t::inputFilePath); // окрываем файл для чтения
+  std::ifstream in(path); // окрываем файл для чтения
   std::string line;
   if (in.is_open())
   {
@@ -36,4 +35,29 @@ std::string SimpleFileFunctions::GetStringFromFile()
   in.close();     // закрываем файл
 
   return line;
+}
+
+bool SimpleFileFunctions::FileExists(const std::string& path)
+{
+  bool isExist = false;
+  std::ifstream fin(path);
+
+  if (fin.is_open())
+    isExist = true;
+
+  fin.close();
+  return isExist;
+}
+
+// Проверка на атрибуты файла, если файл который вы хотите использовать 
+// м.б. открыт только в режиме чтения возвращает false, иначе true
+bool sff_t::IsReadOnlyFile(const std::string& path) {
+  WIN32_FIND_DATAA findData;
+  LPCSTR name = path.c_str();
+  FindFirstFileA(name, &findData);
+  if (findData.dwFileAttributes & FILE_ATTRIBUTE_READONLY) {
+    return true;
+  }
+  else 
+    return false;
 }

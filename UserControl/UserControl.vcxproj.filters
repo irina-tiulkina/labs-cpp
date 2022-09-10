@@ -21,13 +21,13 @@
     <ClInclude Include="pch.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="SimpleConsoleFunction.h">
+    <ClInclude Include="UserInterfaceClaim.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="SimpleFileFunctions.h">
+    <ClInclude Include="TaskInfo.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="StringTransform.h">
+    <ClInclude Include="L1.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -35,13 +35,13 @@
     <ClCompile Include="pch.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="SimpleConsoleFunction.cpp">
+    <ClCompile Include="UserInterfaceClaim.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="SimpleFileFunctions.cpp">
+    <ClCompile Include="TaskInfo.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="StringTransform.cpp">
+    <ClCompile Include="L1.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

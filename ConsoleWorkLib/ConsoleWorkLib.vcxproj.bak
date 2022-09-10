@@ -22,7 +22,7 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{5346a4bb-95f0-4061-91b1-fe47e90853d1}</ProjectGuid>
-    <RootNamespace>GetTextInfosLib</RootNamespace>
+    <RootNamespace>ConsoleWorkLib</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>GetTextInfosLib</ProjectName>
   </PropertyGroup>

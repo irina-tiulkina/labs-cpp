@@ -15,7 +15,7 @@ std::string TransformText::GetTransformedText(const std::string& text, bool isIg
 
   for (size_t i = 0; i < delimText.size(); i++) { 
 
-    std::string wordDelim = isIgnoreSimbols ? GetWorgdWithoutSimbols(delimText[i]) : delimText[i];
+    std::string wordDelim = isIgnoreSimbols ? GetStrWithoutSimbols(delimText[i]) : delimText[i];
 
     if (wordDelim.size() > words.size()) {
       size_t addSize = wordDelim.size() - words.size();
@@ -39,17 +39,17 @@ std::string TransformText::GetTransformedText(const std::string& text, bool isIg
   return str;
 }
 
-std::string TransformText::GetWorgdWithoutSimbols(const std::string& s) { // ??
-  std::string word = "";
+std::string TransformText::GetStrWithoutSimbols(const std::string& s) { // ??
+  std::string str = "";
   for (int i = 0; i < s.size(); i++) {
     if((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z')) {
-      word += s[i];
+      str += s[i];
     }
     else {
       continue;
     }
   }
-  return word;
+  return str;
 }
 
 std::string TransformText::Replace(const std::string& text, char oldVal,const std::string& newVal)

@@ -1,0 +1,15 @@
+#include "pch.h"
+#include "TaskInfo.h"
+#include "TaskInfo.h"
+
+std::string TaskInfo::GetAboutTask()
+{
+  std::string target = TargetInfo;
+  std::string author = "Автор: " + AuthorInfo;
+  std::string kurs = "Группа: " + GroupAuthorInfo + " Курс: " + KursInfo;
+  std::string taskAbout = "Задача: " + AboutTaskInfo;
+  std::string result = ResultInfo;
+
+  std::string aboutTask = target + '\n' + author + '\n' + kurs + '\n' + taskAbout + '\n' + result + '\n';
+  return aboutTask;
+}
