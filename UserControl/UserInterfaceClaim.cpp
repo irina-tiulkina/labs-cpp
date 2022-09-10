@@ -1,18 +1,18 @@
 #include "pch.h"
 #include "UserInterfaceClaim.h"
 
-std::string UserInterfaceClaim::GetTitleTask()
+std::string UserInterfaceClaim::GetTitleTask() const
 {
   return TaskInfos.GetTitleTask();
 }
 
-void UserInterfaceClaim::AboutProgrammToConsole()
+void UserInterfaceClaim::AboutProgrammToConsole() const
 {
   //scf_t::StringToConsole("О программе: ");
   scf_t::StringToConsole(TaskInfos.GetAboutTask());
 }
 
-void UserInterfaceClaim::CycleProgramm()
+void UserInterfaceClaim::CycleProgramm(const std::function<std::string(std::string)>& taskFunc) const
 {
   //2.3.(2) Зацикленность программы
 
@@ -32,7 +32,9 @@ void UserInterfaceClaim::CycleProgramm()
     // 3. Выоленнеие задачи
     std::string resultData = "";
     try {
-      resultData = uic_t::ProgrammFunction(inputData);
+      resultData = taskFunc(inputData);
+      scf_t::StringToConsole("Результат:");
+      scf_t::StringToConsole(resultData);
     }
     catch(std::exception err) {
       scf_t::ErrorTextToConsole(err.what());
@@ -59,19 +61,19 @@ UserInterfaceClaim::UserInterfaceClaim(const TaskInfo &taskInfo)
   TaskInfos = taskInfo;
 };
 
-bool UserInterfaceClaim::RestoreFile()
+bool UserInterfaceClaim::RestoreFile() const
 {
   scf_t::StringToConsole("Такой файл уже существет. Введите " + _restoreFileNum + " чтобы перезаписать файл, чтобы ввести путь к файлу заного - любой другой символ ");
   return scf_t::StringFromConsoleByLine() == _restoreFileNum;
 }
 
-bool UserInterfaceClaim::IsExitToMainMenu()
+bool UserInterfaceClaim::IsExitToMainMenu() const
 {
   scf_t::StringToConsole("Нажмите " + _exitProgrammNum + " если хотите выйти из программы, иначе любой другой символ/строку");
   return scf_t::StringFromConsoleByLine() == _exitProgrammNum;
 }
 
-std::string UserInterfaceClaim::GetInputDataFromFile()
+std::string UserInterfaceClaim::GetInputDataFromFile() const
 {
   while (true) {
     scf_t::StringToConsole("Введите полный путь к файлу: ");
@@ -88,7 +90,7 @@ std::string UserInterfaceClaim::GetInputDataFromFile()
   }
 }
 
-std::string UserInterfaceClaim::GetInputDataFromConsole()
+std::string UserInterfaceClaim::GetInputDataFromConsole() const
 {
   scf_t::StringToConsole("Введите текст");
   scf_t::InfoTextToConsole("(текст считается законченным, если в конце строки стоит $)");
@@ -102,7 +104,7 @@ std::string UserInterfaceClaim::GetInputDataFromConsole()
   return line;
 }
 
-void UserInterfaceClaim::SaveDataToFile(std::string inputText)
+void UserInterfaceClaim::SaveDataToFile(std::string inputText) const
 {
   while (true) {
     scf_t::StringToConsole("Введите полный путь к файлу: ");

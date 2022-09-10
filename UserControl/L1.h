@@ -8,14 +8,18 @@
 class L1 : public UserInterfaceClaim
 {
 private:
-  std::string GetStrWithoutSimbols(const std::string& s);
-
+  std::string GetStrWithoutSimbols(const std::string& s) const;
+ 
 protected:
-  std::string ProgrammFunction(const std::string& inputDataInString) override;
-
-  std::string GetInputDataFromFile() override ;
-  std::string GetInputDataFromConsole() override ;
+  /// <summary>
+  ///  Для решения поставленной задачи
+  /// </summary>
+  /// <param name="inputDataInString">входные данные полученные из файла/консоли</param>
+  /// <returns>Возвращает результат работы программы, решающей поставленную задачу, в виде строки для записи в консоль/файл</returns>
+  std::string ProgrammFunction(const std::string& inputDataInString) const;
 public:
+  void StartCycleProgramm() const override;
   L1(TaskInfo task) : UserInterfaceClaim{task} {};
+  ~L1() {};
 };
 

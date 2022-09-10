@@ -64,6 +64,8 @@ public:
   /// <param name="text"></param>
   /// <param name="colorText"></param>
   static void ColorTextToConsole(const std::string& text, ConsoleColor colorText);
+
+  static void SetStandartColor();
 };
 
 typedef SimpleConsoleFunction scf_t;

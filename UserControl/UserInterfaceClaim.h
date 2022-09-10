@@ -4,6 +4,7 @@
 #include "../ConsoleWorkLib/SimpleConsoleFunction.h"
 #include "../ConsoleWorkLib/SimpleFileFunctions.h"
 #include "../ConsoleWorkLib/StringTransform.h"
+#include <functional>
 
 class UserInterfaceClaim
 {
@@ -34,9 +35,9 @@ private:
   /// 2.4.4 (3) Перезаписать файл если такой существует 
   /// </summary>
   /// <returns></returns>
-  bool RestoreFile();
+  bool RestoreFile() const;
 
-  bool IsExitToMainMenu();
+  bool IsExitToMainMenu() const;
 
 protected:
 
@@ -44,38 +45,31 @@ protected:
   /// 2.4.4 (1) вводить исходные данные из файла
   /// </summary>
   /// <returns>Входные данные в виде строки</returns>
-  virtual std::string GetInputDataFromFile();
-  virtual std::string GetInputDataFromConsole();
+  virtual std::string GetInputDataFromFile() const;
+  virtual std::string GetInputDataFromConsole() const;
 
   /// <summary>
 /// 2.4.4 (1) сохранить исходные данные в файл, сохранить результат работы в файл
 /// </summary>
 /// <param name="inputText">Исходный текст для сохранения</param>
-  void SaveDataToFile(std::string str);
-
-
-  /// <summary>
-  ///  Для решения поставленной задачи
-  /// </summary>
-  /// <param name="inputDataInString">входные данные полученные из файла/консоли</param>
-  /// <returns>Возвращает результат работы программы, решающей поставленную задачу, в виде строки для записи в консоль/файл</returns>
-  virtual std::string ProgrammFunction(const std::string& inputDataInString) = 0 { return ""; };
-
-public:
-  
-  std::string GetTitleTask();
-
-  /// <summary>
-  /// 2.3.(1) О программе (назначение, автор, задача, результат )
-  /// </summary>
-  void AboutProgrammToConsole();
+  void SaveDataToFile(std::string str) const;
 
   /// <summary>
   /// 2.3.(2) Зацикленность программы
   /// </summary>
-  void CycleProgramm();
+  void CycleProgramm(const std::function<std::string(std::string)>& taskFunc) const;
 
+public:
+  
+  std::string GetTitleTask() const;
+
+  /// <summary>
+  /// 2.3.(1) О программе (назначение, автор, задача, результат )
+  /// </summary>
+  void AboutProgrammToConsole() const;
+  virtual void StartCycleProgramm() const = 0;
   UserInterfaceClaim(const TaskInfo &taskInfo);
+  virtual ~UserInterfaceClaim() {delete &TaskInfos;};
 };
 
 typedef UserInterfaceClaim uic_t;

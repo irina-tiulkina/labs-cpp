@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "TaskInfo.h"
 
-std::string TaskInfo::GetAboutTask()
+std::string TaskInfo::GetAboutTask() const
 {
   std::string target = TargetInfo;
   std::string author = "Автор: " + AuthorInfo;

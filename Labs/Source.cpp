@@ -17,8 +17,9 @@ int main() {
     std::string menu = "Меню: \n";
     std::string exitMenu = exitNum + ". Выйти из программы\n";
     std::string labMenuOne = labOneNum + ". " + lab1.GetTitleTask() + "\n";
-
     scf_t::StringToConsole(menu + exitMenu + labMenuOne);
+
+    scf_t::StringToConsole("Выберете пункт меню:");
     std::string selectNum = scf_t::StringFromConsoleByLine();
 
     if (selectNum == exitNum) {
@@ -28,7 +29,7 @@ int main() {
     bool isLab1 = selectNum == labOneNum;
     if (isLab1) {
       lab1.AboutProgrammToConsole();
-      lab1.CycleProgramm();
+      lab1.StartCycleProgramm();
       continue;
     }
 

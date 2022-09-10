@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "L1.h"
 
-std::string L1::GetStrWithoutSimbols(const std::string& s)
+std::string L1::GetStrWithoutSimbols(const std::string& s) const
 {
   std::string str = "";
   for (int i = 0; i < s.size(); i++) {
@@ -15,7 +15,7 @@ std::string L1::GetStrWithoutSimbols(const std::string& s)
   return str;
 }
 
-std::string L1::ProgrammFunction(const std::string& inputDataInString) {
+std::string L1::ProgrammFunction(const std::string& inputDataInString) const {
   std::string replacedText = st_t::Replace(inputDataInString, '\n', " ");
   replacedText = GetStrWithoutSimbols(replacedText);
   std::vector<std::string> delimText = st_t::Split(replacedText, ' ');
@@ -48,12 +48,7 @@ std::string L1::ProgrammFunction(const std::string& inputDataInString) {
   return str;
 }
 
-std::string L1::GetInputDataFromFile()
+void L1::StartCycleProgramm() const
 {
-  return uic_t::GetInputDataFromFile();
-}
-
-std::string L1::GetInputDataFromConsole()
-{
-  return uic_t::GetInputDataFromConsole();
+  CycleProgramm([&](std::string str) { return ProgrammFunction(str); });
 }
