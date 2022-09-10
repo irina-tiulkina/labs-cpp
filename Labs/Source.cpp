@@ -26,8 +26,7 @@ int main() {
       return 0;
     }
 
-    bool isLab1 = selectNum == labOneNum;
-    if (isLab1) {
+    if (selectNum == labOneNum) {
       lab1.AboutProgrammToConsole();
       lab1.StartCycleProgramm();
       continue;
