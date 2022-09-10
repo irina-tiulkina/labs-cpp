@@ -1,11 +1,11 @@
 #include "pch.h"
 #include "L1.h"
 
-std::string L1::GetStrWithoutSimbols(const std::string& s) const
+std::string L1::GetStrWithoutSimbols(const std::string& s, const char& c) const
 {
   std::string str = "";
   for (int i = 0; i < s.size(); i++) {
-    if ((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z')) {
+    if ((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z') || s[i] == c) {
       str += s[i];
     }
     else {
@@ -17,7 +17,7 @@ std::string L1::GetStrWithoutSimbols(const std::string& s) const
 
 std::string L1::ProgrammFunction(const std::string& inputDataInString) const {
   std::string replacedText = st_t::Replace(inputDataInString, '\n', " ");
-  replacedText = GetStrWithoutSimbols(replacedText);
+  replacedText = GetStrWithoutSimbols(replacedText, ' ');
   std::vector<std::string> delimText = st_t::Split(replacedText, ' ');
 
   std::vector<std::string> words;

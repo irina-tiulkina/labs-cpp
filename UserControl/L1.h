@@ -8,7 +8,7 @@
 class L1 : public UserInterfaceClaim
 {
 private:
-  std::string GetStrWithoutSimbols(const std::string& s) const;
+  std::string GetStrWithoutSimbols(const std::string& s, const char& c) const;
  
 protected:
   /// <summary>
