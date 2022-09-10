@@ -21,12 +21,14 @@ void SimpleFileFunctions::SaveStringToFile(const std::string& text, const std::s
 std::string SimpleFileFunctions::GetStringFromFile(const std::string& path)
 {
   std::ifstream in(path); // окрываем файл для чтения
-  std::string line;
+  std::string str = "";
   if (in.is_open())
   {
+    std::string line;
     while (std::getline(in, line))
     {
       std::cout << line << std::endl;
+      str += line;
     }
   }
   else {
@@ -34,7 +36,7 @@ std::string SimpleFileFunctions::GetStringFromFile(const std::string& path)
   }
   in.close();     // закрываем файл
 
-  return line;
+  return str;
 }
 
 bool SimpleFileFunctions::FileExists(const std::string& path)
