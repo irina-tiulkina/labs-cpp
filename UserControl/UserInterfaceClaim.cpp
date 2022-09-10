@@ -81,6 +81,7 @@ std::string UserInterfaceClaim::GetInputDataFromFile() const
 
     try {
       std::string inputData = sff_t::GetStringFromFile(fullFilePath);
+      scf_t::StringToConsole(inputData);
       return inputData;
     }
     catch (...) {

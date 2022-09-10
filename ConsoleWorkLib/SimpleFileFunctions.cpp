@@ -27,8 +27,8 @@ std::string SimpleFileFunctions::GetStringFromFile(const std::string& path)
     std::string line;
     while (std::getline(in, line))
     {
-      std::cout << line << std::endl;
-      str += line;
+      //std::cout << line << std::endl;
+      str += line + '\n';
     }
   }
   else {
