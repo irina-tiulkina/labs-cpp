@@ -8,7 +8,10 @@ const std::string exitNum = "0";
 const std::string labOneNum = "1";
 
 int main() {
+  SetConsoleCP(1251);
+  SetConsoleOutputCP(1251);
   setlocale(LC_ALL, "Russian");
+
 
   while (true) {
     TaskInfo task1 = TaskInfo();
