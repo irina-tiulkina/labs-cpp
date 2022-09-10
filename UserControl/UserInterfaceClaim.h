@@ -69,7 +69,7 @@ public:
   void AboutProgrammToConsole() const;
   virtual void StartCycleProgramm() const = 0;
   UserInterfaceClaim(const TaskInfo &taskInfo);
-  virtual ~UserInterfaceClaim() {delete &TaskInfos;};
+  virtual ~UserInterfaceClaim() {};
 };
 
 typedef UserInterfaceClaim uic_t;
