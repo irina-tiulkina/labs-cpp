@@ -9,5 +9,8 @@
 
 // Добавьте сюда заголовочные файлы для предварительной компиляции
 #include "framework.h"
+#include "TaskInfo.h"
+#include "UserInterfaceClaim.h"
+#include "L1.h"
 
 #endif //PCH_H

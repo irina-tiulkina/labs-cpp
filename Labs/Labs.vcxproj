@@ -21,6 +21,14 @@
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ConsoleWorkLib\ConsoleWorkLib.vcxproj">
+      <Project>{5346a4bb-95f0-4061-91b1-fe47e90853d1}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\UserControl\UserControl.vcxproj">
+      <Project>{a090758d-19ed-4aa9-b5f9-f94f5f34a79b}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -79,7 +87,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\Яндекс.Диск\YandexDisk\UNIVERS\7 семестр\ЛиПОАИС\Лабы\LabsCpp\ConsoleWorkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\Яндекс.Диск\YandexDisk\UNIVERS\7 семестр\ЛиПОАИС\Лабы\LabsCpp\ConsoleWorkLib;E:\Яндекс.Диск\YandexDisk\UNIVERS\7 семестр\ЛиПОАИС\Лабы\LabsCpp\UserControl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -94,7 +102,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\Яндекс.Диск\YandexDisk\UNIVERS\7 семестр\ЛиПОАИС\Лабы\LabsCpp\ConsoleWorkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\Яндекс.Диск\YandexDisk\UNIVERS\7 семестр\ЛиПОАИС\Лабы\LabsCpp\ConsoleWorkLib;E:\Яндекс.Диск\YandexDisk\UNIVERS\7 семестр\ЛиПОАИС\Лабы\LabsCpp\UserControl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -109,7 +117,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\Яндекс.Диск\YandexDisk\UNIVERS\7 семестр\ЛиПОАИС\Лабы\LabsCpp\ConsoleWorkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\Яндекс.Диск\YandexDisk\UNIVERS\7 семестр\ЛиПОАИС\Лабы\LabsCpp\ConsoleWorkLib;E:\Яндекс.Диск\YandexDisk\UNIVERS\7 семестр\ЛиПОАИС\Лабы\LabsCpp\UserControl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -124,7 +132,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\Яндекс.Диск\YandexDisk\UNIVERS\7 семестр\ЛиПОАИС\Лабы\LabsCpp\ConsoleWorkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\Яндекс.Диск\YandexDisk\UNIVERS\7 семестр\ЛиПОАИС\Лабы\LabsCpp\ConsoleWorkLib;E:\Яндекс.Диск\YandexDisk\UNIVERS\7 семестр\ЛиПОАИС\Лабы\LabsCpp\UserControl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

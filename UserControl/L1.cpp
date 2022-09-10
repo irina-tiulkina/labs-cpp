@@ -15,8 +15,7 @@ std::string L1::GetStrWithoutSimbols(const std::string& s)
   return str;
 }
 
-std::string L1::ProgrammFunction(const std::string& inputDataInString)
-{
+std::string L1::ProgrammFunction(const std::string& inputDataInString) {
   std::string replacedText = st_t::Replace(inputDataInString, '\n', " ");
   replacedText = GetStrWithoutSimbols(replacedText);
   std::vector<std::string> delimText = st_t::Split(replacedText, ' ');
@@ -47,4 +46,14 @@ std::string L1::ProgrammFunction(const std::string& inputDataInString)
   }
 
   return str;
+}
+
+std::string L1::GetInputDataFromFile()
+{
+  return uic_t::GetInputDataFromFile();
+}
+
+std::string L1::GetInputDataFromConsole()
+{
+  return uic_t::GetInputDataFromConsole();
 }

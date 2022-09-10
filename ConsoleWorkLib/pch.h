@@ -9,5 +9,8 @@
 
 // Добавьте сюда заголовочные файлы для предварительной компиляции
 #include "framework.h"
+#include "SimpleConsoleFunction.h"
+#include "SimpleFileFunctions.h"
+#include "StringTransform.h"
 
 #endif //PCH_H

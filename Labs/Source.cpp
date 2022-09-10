@@ -1,28 +1,34 @@
 #include <string>
-#include "SimpleConsoleFunction.h"
+#include <locale.h>
+#include "../UserControl/L1.h"
+#include "../UserControl/UserInterfaceClaim.h"
+#include "../ConsoleWorkLib/SimpleConsoleFunction.cpp"
 
 const std::string exitNum = "0";
 const std::string labOneNum = "1";
 
 int main() {
   setlocale(LC_ALL, "Russian");
-  bool isExit = false;
-  while (!isExit) {
+
+  while (true) {
+    TaskInfo task1 = TaskInfo();
+    L1 lab1( task1 );
+
     std::string menu = "Меню: \n";
     std::string exitMenu = exitNum + ". Выйти из программы\n";
-    std::string labMenuOne = labMenuOne + ".\n ЛР1";
+    std::string labMenuOne = labOneNum + ". " + lab1.GetTitleTask() + "\n";
 
     scf_t::StringToConsole(menu + exitMenu + labMenuOne);
     std::string selectNum = scf_t::StringFromConsoleByLine();
 
-    isExit = selectNum == exitNum;
-    if (isExit) {
-      return;
+    if (selectNum == exitNum) {
+      return 0;
     }
 
     bool isLab1 = selectNum == labOneNum;
     if (isLab1) {
-      // .... Какой-то процесс
+      lab1.AboutProgrammToConsole();
+      lab1.CycleProgramm();
       continue;
     }
 

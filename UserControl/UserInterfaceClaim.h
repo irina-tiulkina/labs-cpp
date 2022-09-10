@@ -1,19 +1,19 @@
 #pragma once
 #include <string>
 #include "TaskInfo.h"
-#include "SimpleConsoleFunction.h"
-#include "SimpleFileFunctions.h"
-#include "StringTransform.h"
+#include "../ConsoleWorkLib/SimpleConsoleFunction.h"
+#include "../ConsoleWorkLib/SimpleFileFunctions.h"
+#include "../ConsoleWorkLib/StringTransform.h"
 
 class UserInterfaceClaim
 {
 private:
 
   // Пункты меню
-  const std::string InputDataFromFileNum = "1"; // 2.4.4 (1) Пункт меню для возможности получения данных из файла
-  const std::string SaveDataToFileNum = "1"; // 2.4.4 (1) Пункт меню для возможности сохранения данных в файл
-  const std::string RestoreFileNum = "1"; // 2.4.4 (3) Пункт меню для перезаписи файла
-  const std::string ExitProgrammNum = "1"; // 2.3 (2) Пункт меню для выхода из программы
+  const std::string _inputDataFromFileNum = "1"; // 2.4.4 (1) Пункт меню для возможности получения данных из файла
+  const std::string _saveDataToFileNum = "1"; // 2.4.4 (1) Пункт меню для возможности сохранения данных в файл
+  const std::string _restoreFileNum = "1"; // 2.4.4 (3) Пункт меню для перезаписи файла
+  const std::string _exitProgrammNum = "1"; // 2.3 (2) Пункт меню для выхода из программы
 
   /// <summary>
   /// 2.3.(1) Для получения информации о программе / задаче / авторе
@@ -23,12 +23,12 @@ private:
   /// <summary>
   /// 2.4 (1) Для обработки ошибки сохранения файла
   /// </summary>
-  const std::string ProcessFileSaveError = "Ошибка при сохранении файла. Проверьте путь к файлу";
+  const std::string _processFileSaveError = "Ошибка при сохранении файла. Проверьте путь к файлу";
 
   /// <summary>
   /// 2.4 (1) Для обработки ошибки получения данных из файла
   /// </summary>
-  const std::string ProscessGetDataFromFileError = "Ошибка при получении данных из файла. Проверьте путь к файлу";
+  const std::string _proscessGetDataFromFileError = "Ошибка при получении данных из файла. Проверьте путь к файлу";
 
   /// <summary>
   /// 2.4.4 (3) Перезаписать файл если такой существует 
@@ -39,10 +39,6 @@ private:
   bool IsExitToMainMenu();
 
 protected:
-
-  UserInterfaceClaim(TaskInfo taskInfo) {
-    TaskInfos = taskInfo;
-  };
 
   /// <summary>
   /// 2.4.4 (1) вводить исходные данные из файла
@@ -63,11 +59,11 @@ protected:
   /// </summary>
   /// <param name="inputDataInString">входные данные полученные из файла/консоли</param>
   /// <returns>Возвращает результат работы программы, решающей поставленную задачу, в виде строки для записи в консоль/файл</returns>
-  virtual std::string ProgrammFunction(const std::string& inputDataInString) = 0;
+  virtual std::string ProgrammFunction(const std::string& inputDataInString) = 0 { return ""; };
 
 public:
   
-  std::string GetTitleTask() { return TaskInfos.GetTitleTask(); }
+  std::string GetTitleTask();
 
   /// <summary>
   /// 2.3.(1) О программе (назначение, автор, задача, результат )
@@ -79,6 +75,7 @@ public:
   /// </summary>
   void CycleProgramm();
 
+  UserInterfaceClaim(const TaskInfo &taskInfo);
 };
 
 typedef UserInterfaceClaim uic_t;

@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "TaskInfo.h"
-#include "TaskInfo.h"
 
 std::string TaskInfo::GetAboutTask()
 {

@@ -1,6 +1,11 @@
 #include "pch.h"
 #include "UserInterfaceClaim.h"
 
+std::string UserInterfaceClaim::GetTitleTask()
+{
+  return TaskInfos.GetTitleTask();
+}
+
 void UserInterfaceClaim::AboutProgrammToConsole()
 {
   //scf_t::StringToConsole("О программе: ");
@@ -10,17 +15,17 @@ void UserInterfaceClaim::AboutProgrammToConsole()
 void UserInterfaceClaim::CycleProgramm()
 {
   //2.3.(2) Зацикленность программы
-  bool isExitProgram = false;
-  while (!isExitProgram) {
+
+  while (true) {
 
     // 2.4.4 (1) получить исходные данные из файла / консоли
-    scf_t::StringToConsole("Введите " + InputDataFromFileNum + " если хотите получить данные из файла, если из консоли любой другой символ/строку");
+    scf_t::StringToConsole("Введите " + _inputDataFromFileNum + " если хотите получить данные из файла, если из консоли любой другой символ/строку");
 
-    std::string inputData = scf_t::StringFromConsoleByLine() == InputDataFromFileNum ? uic_t::GetInputDataFromFile() : uic_t::GetInputDataFromConsole();
+    std::string inputData = scf_t::StringFromConsoleByLine() == _inputDataFromFileNum ? uic_t::GetInputDataFromFile() : uic_t::GetInputDataFromConsole();
 
     // 2.4.4 (1) сохранить исходные данные в файл
-    scf_t::StringToConsole("Введите " + SaveDataToFileNum + " если хотите сохранить исходные данные в файл, иначе любой другой символ/строку");
-    if (scf_t::StringFromConsoleByLine() == SaveDataToFileNum) {
+    scf_t::StringToConsole("Введите " + _saveDataToFileNum + " если хотите сохранить исходные данные в файл, иначе любой другой символ/строку");
+    if (scf_t::StringFromConsoleByLine() == _saveDataToFileNum) {
       SaveDataToFile(inputData);
     }
 
@@ -31,32 +36,39 @@ void UserInterfaceClaim::CycleProgramm()
     }
     catch(std::exception err) {
       scf_t::ErrorTextToConsole(err.what());
-      isExitProgram = IsExitToMainMenu();
+      if (IsExitToMainMenu())
+        return;
       continue;
     }
     
     // 2.4.4 (1) сохранить результат работы в файл
-    scf_t::StringToConsole("Введите " + SaveDataToFileNum + " если хотите сохранить результат в файл, иначе любой другой символ/строку");
-    if (scf_t::StringFromConsoleByLine() == SaveDataToFileNum) {
+    scf_t::StringToConsole("Введите " + _saveDataToFileNum + " если хотите сохранить результат в файл, иначе любой другой символ/строку");
+    if (scf_t::StringFromConsoleByLine() == _saveDataToFileNum) {
       SaveDataToFile(resultData);
     }
 
     // 2.3.(2) Зацикленность программы Выход из программы
-    isExitProgram = IsExitToMainMenu();
+    if (IsExitToMainMenu())
+      return;
     continue;
   }
 }
 
+UserInterfaceClaim::UserInterfaceClaim(const TaskInfo &taskInfo)
+{
+  TaskInfos = taskInfo;
+};
+
 bool UserInterfaceClaim::RestoreFile()
 {
-  scf_t::StringToConsole("Такой файл уже существет. Введите " + RestoreFileNum + " чтобы перезаписать файл, чтобы ввести путь к файлу заного - любой другой символ ");
-  return scf_t::StringFromConsoleByLine() == RestoreFileNum;
+  scf_t::StringToConsole("Такой файл уже существет. Введите " + _restoreFileNum + " чтобы перезаписать файл, чтобы ввести путь к файлу заного - любой другой символ ");
+  return scf_t::StringFromConsoleByLine() == _restoreFileNum;
 }
 
 bool UserInterfaceClaim::IsExitToMainMenu()
 {
-  scf_t::StringToConsole("Нажмите " + ExitProgrammNum + " если хотите выйти из программы, иначе любой другой символ/строку");
-  return scf_t::StringFromConsoleByLine() == ExitProgrammNum;
+  scf_t::StringToConsole("Нажмите " + _exitProgrammNum + " если хотите выйти из программы, иначе любой другой символ/строку");
+  return scf_t::StringFromConsoleByLine() == _exitProgrammNum;
 }
 
 std::string UserInterfaceClaim::GetInputDataFromFile()
@@ -70,7 +82,7 @@ std::string UserInterfaceClaim::GetInputDataFromFile()
       return inputData;
     }
     catch (...) {
-      scf_t::ErrorTextToConsole(ProscessGetDataFromFileError);
+      scf_t::ErrorTextToConsole(_proscessGetDataFromFileError);
       continue;
     }
   }
@@ -106,7 +118,7 @@ void UserInterfaceClaim::SaveDataToFile(std::string inputText)
       return;
     }
     catch(...){
-      scf_t::ErrorTextToConsole(ProcessFileSaveError);
+      scf_t::ErrorTextToConsole(_processFileSaveError);
       continue;
     }
   }
