@@ -14,8 +14,7 @@ int main() {
 
 
   while (true) {
-    TaskInfo task1 = TaskInfo();
-    L1 lab1( task1 );
+    L1 lab1;
 
     std::string menu = "Меню: \n";
     std::string exitMenu = exitNum + ". Выйти из программы\n";
