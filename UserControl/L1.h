@@ -5,7 +5,7 @@
 #include "../ConsoleWorkLib/StringTransform.h"
 #include <vector>
 
-class L1 : public UserInterfaceClaim
+class L1 final : public UserInterfaceClaim
 {
 private:
   std::string GetStrWithoutSimbols(const std::string& s, const char& c) const;

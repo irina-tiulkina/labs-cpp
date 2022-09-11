@@ -139,12 +139,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\UserControl\GasolineControlLog.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="GasolineAverageValue.h" />
+    <ClInclude Include="GasolineLogModel.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\UserControl\GasolineControlLog.cpp" />
+    <ClCompile Include="GasolineAverageValue.cpp" />
+    <ClCompile Include="GasolineLogModel.cpp" />
     <ClCompile Include="GasolineLogModels.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
