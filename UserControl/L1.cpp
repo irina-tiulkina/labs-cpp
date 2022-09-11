@@ -54,5 +54,5 @@ std::string L1::ProgrammFunction(const std::string& inputDataInString) const {
 
 void L1::StartCycleProgramm() const
 {
-  CycleProgramm([&](std::string str) { return ProgrammFunction(str); });
+  CycleProgramm([&](std::string str) { return ProgrammFunction(str); }, "", "Текст считается законченным если в конце строки стоит $");
 }

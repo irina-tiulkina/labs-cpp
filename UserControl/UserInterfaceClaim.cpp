@@ -12,7 +12,11 @@ void UserInterfaceClaim::AboutProgrammToConsole() const
   scf_t::StringToConsole(TaskInfos.GetAboutTask());
 }
 
-void UserInterfaceClaim::CycleProgramm(const std::function<std::string(std::string)>& taskFunc) const
+void UserInterfaceClaim::CycleProgramm(
+  const std::function<std::string(std::string)>& taskFunc,
+  const std::string& infoForGetDataFromFile,
+  const std::string& infoForGetDataFromConsole
+) const
 {
   //2.3.(2) Зацикленность программы
 
@@ -21,7 +25,8 @@ void UserInterfaceClaim::CycleProgramm(const std::function<std::string(std::stri
     // 2.4.4 (1) получить исходные данные из файла / консоли
     scf_t::StringToConsole("Введите " + _inputDataFromFileNum + " если хотите получить данные из файла, если из консоли любой другой символ/строку");
 
-    std::string inputData = scf_t::StringFromConsoleByLine() == _inputDataFromFileNum ? uic_t::GetInputDataFromFile() : uic_t::GetInputDataFromConsole();
+    std::string inputData = scf_t::StringFromConsoleByLine() == _inputDataFromFileNum ? 
+      uic_t::GetInputDataFromFile(infoForGetDataFromFile) : uic_t::GetInputDataFromConsole(infoForGetDataFromConsole);
 
     // 2.4.4 (1) сохранить исходные данные в файл
     scf_t::StringToConsole("Введите " + _saveDataToFileNum + " если хотите сохранить исходные данные в файл, иначе любой другой символ/строку");
@@ -73,10 +78,11 @@ bool UserInterfaceClaim::IsExitToMainMenu() const
   return scf_t::StringFromConsoleByLine() == _exitProgrammNum;
 }
 
-std::string UserInterfaceClaim::GetInputDataFromFile() const
+std::string UserInterfaceClaim::GetInputDataFromFile(const std::string& infoForGetDataFromFile) const
 {
   while (true) {
     scf_t::StringToConsole("Введите полный путь к файлу: ");
+    scf_t::InfoTextToConsole(infoForGetDataFromFile);
     std::string fullFilePath = scf_t::StringFromConsoleByLine();
 
     try {
@@ -91,10 +97,10 @@ std::string UserInterfaceClaim::GetInputDataFromFile() const
   }
 }
 
-std::string UserInterfaceClaim::GetInputDataFromConsole() const
+std::string UserInterfaceClaim::GetInputDataFromConsole(const std::string& infoForGetDataFromConsole) const
 {
   scf_t::StringToConsole("Введите текст");
-  scf_t::InfoTextToConsole("(текст считается законченным, если в конце строки стоит $)");
+  scf_t::InfoTextToConsole(infoForGetDataFromConsole);
   std::string line = scf_t::StringFromConsoleByLine();
   while (line[line.size() - 1] != '$') {
 

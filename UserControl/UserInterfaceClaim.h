@@ -45,19 +45,24 @@ protected:
   /// 2.4.4 (1) вводить исходные данные из файла
   /// </summary>
   /// <returns>Входные данные в виде строки</returns>
-  virtual std::string GetInputDataFromFile() const;
-  virtual std::string GetInputDataFromConsole() const;
+  std::string GetInputDataFromFile(const std::string& infoForGetDataFromFile) const;
+  std::string GetInputDataFromConsole(const std::string& infoForGetDataFromConsole) const;
 
   /// <summary>
-/// 2.4.4 (1) сохранить исходные данные в файл, сохранить результат работы в файл
-/// </summary>
-/// <param name="inputText">Исходный текст для сохранения</param>
+ /// 2.4.4 (1) сохранить исходные данные в файл, сохранить результат работы в файл
+ /// </summary>
+ /// <param name="inputText">Исходный текст для сохранения</param>
   void SaveDataToFile(std::string str) const;
 
   /// <summary>
   /// 2.3.(2) Зацикленность программы
   /// </summary>
-  void CycleProgramm(const std::function<std::string(std::string)>& taskFunc) const;
+  void CycleProgramm
+  (
+    const std::function<std::string(std::string)>& taskFunc,
+    const std::string& infoForGetDataFromFile,
+    const std::string& infoForGetDataFromConsole
+  ) const;
 
 public:
   
