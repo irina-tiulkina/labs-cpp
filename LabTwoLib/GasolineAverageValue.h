@@ -29,14 +29,7 @@ namespace LabTwoLib {
     /// </summary>
     double ConsumptionTimeOfOneLiter;
 
-    GasolineAverageValueModel() {
-      MileageBetweenGasStations = 0;
-      PriceOfLiter = 0;
-      MileagePerLiter = 0;
-      CostOfOneKmRun = 0;
-      CostOneDay = 0;
-      ConsumptionTimeOfOneLiter = 0;
-    }
+    GasolineAverageValueModel();
   };
 
 }

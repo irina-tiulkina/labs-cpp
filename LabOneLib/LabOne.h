@@ -22,7 +22,6 @@ namespace LabOneLib {
     void StartCycleProgramm() const override;
     LabOne(UserControlMainLib::TaskInfo task) : UserControlMainLib::UserInterfaceClaim{ task } {};
     LabOne() : UserControlMainLib::UserInterfaceClaim{ UserControlMainLib::TaskInfo() } {};
-    ~LabOne() {};
   };
 }
 

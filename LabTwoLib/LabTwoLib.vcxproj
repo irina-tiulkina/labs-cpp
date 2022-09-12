@@ -163,6 +163,9 @@
     <ProjectReference Include="..\ConsoleWorkLib\ConsoleWorkLib.vcxproj">
       <Project>{5346a4bb-95f0-4061-91b1-fe47e90853d1}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\UserControlMainLib\UserControlMainLib.vcxproj">
+      <Project>{401a18d1-c5d0-418f-96ed-c23f936dfb98}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

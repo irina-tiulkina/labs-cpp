@@ -74,6 +74,5 @@ namespace UserControlMainLib {
     void AboutProgrammToConsole() const;
     virtual void StartCycleProgramm() const = 0;
     UserInterfaceClaim(const TaskInfo& taskInfo);
-    virtual ~UserInterfaceClaim() {};
   };
 }

@@ -31,6 +31,9 @@
     <ProjectReference Include="..\LabTwoLib\LabTwoLib.vcxproj">
       <Project>{ad254420-4677-4577-ab8c-823e1d7f160c}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\UserControlMainLib\UserControlMainLib.vcxproj">
+      <Project>{401a18d1-c5d0-418f-96ed-c23f936dfb98}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -304,5 +304,15 @@ namespace LabTwoLib {
     return result;
   }
 
+  void LabTwo::StartCycleProgramm() const
+  {
+    CycleProgramm
+    (
+      [&](std::string str) { return ProgrammFunction(str); },
+      _infoForGetData,
+      _infoForGetData + "\nТекст считается законченным если в конце строки стоит $"
+    );
+  };
+
 }
 

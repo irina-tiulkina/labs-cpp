@@ -11,25 +11,13 @@ namespace UserControlMainLib {
     std::string KursInfo = "4";
     std::string ResultInfo = "В результате программы получаем текст";
   public:
-    TaskInfo() {};
-    TaskInfo(std::string target, std::string author, std::string aboutTask, std::string group, std::string kurs, std::string result) {
-      TargetInfo = target;
-      AuthorInfo = author;
-      AboutTaskInfo = aboutTask;
-      GroupAuthorInfo = group;
-      KursInfo = kurs;
-      ResultInfo = result;
-    }
+    TaskInfo();
+    TaskInfo(std::string target, std::string author, std::string aboutTask, std::string group, std::string kurs, std::string result);
 
-    TaskInfo(std::string target, std::string aboutTask, std::string result) {
-      TargetInfo = target;
-      AboutTaskInfo = aboutTask;
-      ResultInfo = result;
-    }
-
+    TaskInfo(std::string target, std::string aboutTask, std::string result);
     std::string GetAboutTask() const;
 
-    std::string GetTitleTask() const { return TargetInfo; }
+    std::string GetTitleTask() const;
   };
 
 }

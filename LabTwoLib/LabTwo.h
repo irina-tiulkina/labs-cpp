@@ -38,15 +38,7 @@ namespace LabTwoLib {
     /// <param name="inputDataInString">входные данные полученные из файла/консоли</param>
     /// <returns>Возвращает результат работы программы, решающей поставленную задачу, в виде строки для записи в консоль/файл</returns>
     std::string ProgrammFunction(const std::string& inputDataInString) const;
-    void StartCycleProgramm() const override
-    {
-      CycleProgramm
-      (
-        [&](std::string str) { return ProgrammFunction(str); },
-        _infoForGetData,
-        _infoForGetData + "\nТекст считается законченным если в конце строки стоит $"
-      );
-    };
+    void StartCycleProgramm() const override;
 
     LabTwo() : UserControlMainLib::UserInterfaceClaim{ UserControlMainLib::TaskInfo("Лабораторная работа 2 (Этюды для программистов стр.92)",
       R"S(По данным, имеющимся в журнале покупок бензина, напечатайте
@@ -64,7 +56,6 @@ namespace LabTwoLib {
         соответствующие средние значения.Не ограничивайте число различных
         марок(с. 92).)S",
         "") } {};
-    ~LabTwo() {};
   };
 }
 
