@@ -17,7 +17,7 @@ namespace UnitTestLab1
 			std::string expected = "abc abc abc a";
 			
 			//act
-			LabOne lab1;
+			LabOneLib::LabOne lab1;
 			std::string actual = lab1.ProgrammFunction(inputData);
 
 			//asserts
@@ -31,7 +31,7 @@ namespace UnitTestLab1
 			std::string expected = "a a a a";
 
 			//act
-			LabOne lab1;
+			LabOneLib::LabOne lab1;
 			std::string actual = lab1.ProgrammFunction(inputData);
 
 			//asserts
@@ -45,7 +45,7 @@ namespace UnitTestLab1
 			std::string expected = "a";
 
 			//act
-			LabOne lab1;
+			LabOneLib::LabOne lab1;
 			std::string actual = lab1.ProgrammFunction(inputData);
 
 			//asserts
@@ -59,7 +59,7 @@ namespace UnitTestLab1
 			std::string expected = "aa a a a a a a a a a a a a a a a a a";
 
 			//act
-			LabOne lab1;
+			LabOneLib::LabOne lab1;
 			std::string actual = lab1.ProgrammFunction(inputData);
 
 			//asserts
@@ -73,7 +73,7 @@ namespace UnitTestLab1
 			std::string expected = "aaaa aaa aa a";
 
 			//act
-			LabOne lab1;
+			LabOneLib::LabOne lab1;
 			std::string actual = lab1.ProgrammFunction(inputData);
 
 			//asserts

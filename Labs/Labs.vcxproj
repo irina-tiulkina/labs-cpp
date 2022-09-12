@@ -25,6 +25,12 @@
     <ProjectReference Include="..\ConsoleWorkLib\ConsoleWorkLib.vcxproj">
       <Project>{5346a4bb-95f0-4061-91b1-fe47e90853d1}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\LabOneLib\LabOneLib.vcxproj">
+      <Project>{b9e4d344-b6ed-499f-8f03-d1cdc0b9725a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\LabTwoLib\LabTwoLib.vcxproj">
+      <Project>{ad254420-4677-4577-ab8c-823e1d7f160c}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
