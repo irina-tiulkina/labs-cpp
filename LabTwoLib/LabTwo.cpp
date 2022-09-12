@@ -73,7 +73,7 @@ namespace LabTwoLib {
       return array;
     }
     else {
-      int pivotIndx = array.size() - 1 / 2;
+      int pivotIndx = (array.size() - 1) / 2;
       double pivot = array[pivotIndx].MileageOnTheSensor;
       std::vector<GasolineLogModel> leftArray;
       std::vector<GasolineLogModel> rightArray;
@@ -99,13 +99,13 @@ namespace LabTwoLib {
 
   int LabTwo::GetCountDayBetweenGasStation(DataYearMonthDay leftDay, DataYearMonthDay rightDay) const
   {
-    //struct tm a = { 0,0,0,leftDay.Day,leftDay.Month,leftDay.Year }; /* June 24, 2004 */
-    //struct tm b = { 0,0,0,rightDay.Day,rightDay.Month,rightDay.Year }; /* July 5, 2004 */
-    //std::time_t x = std::mktime(&a);
-    //std::time_t y = std::mktime(&b);
+    struct tm a = { 0,0,0,leftDay.Day,leftDay.Month,leftDay.Year }; /* June 24, 2004 */
+    struct tm b = { 0,0,0,rightDay.Day,rightDay.Month,rightDay.Year }; /* July 5, 2004 */
+    std::time_t x = std::mktime(&a);
+    std::time_t y = std::mktime(&b);
 
-    //int difference = std::difftime(y, x) / (60 * 60 * 24);
-    return 0;
+    int difference = std::difftime(y, x) / (60 * 60 * 24);
+    return difference;
   }
 
   GasolineAverageValueModel LabTwo::GetAverageVeluesByGlModels(std::vector<GasolineLogModel>& dlmodels) const
@@ -228,47 +228,47 @@ namespace LabTwoLib {
       GasolineLogModel model = purchasesModel[i];
 
       std::string date = std::to_string(model.Date.Year) + "." + std::to_string(model.Date.Month) + "." + std::to_string(model.Date.Day);
-      date.resize(20, ' ');
+      date.resize(10, ' ');
       resultArray[0] += date + "|";
 
       std::string mark = model.Mark;
-      mark.resize(20, ' ');
+      mark.resize(10, ' ');
       resultArray[1] += mark + "|";
 
       std::string mileageSensor = std::to_string(model.MileageOnTheSensor);
-      mileageSensor.resize(20, ' ');
+      mileageSensor.resize(10, ' ');
       resultArray[2] += mileageSensor + "|";
 
       std::string coastLiter = std::to_string(model.PriceOfLiter);
-      coastLiter.resize(20, ' ');
+      coastLiter.resize(10, ' ');
       resultArray[3] += coastLiter + "|";
 
       std::string conutliters = std::to_string(model.NumberOfLiters);
-      conutliters.resize(20, ' ');
+      conutliters.resize(10, ' ');
       resultArray[4] += conutliters + "|";
 
       std::string totalCost = std::to_string(model.TotalCost);
-      totalCost.resize(20, ' ');
+      totalCost.resize(10, ' ');
       resultArray[5] += totalCost + "|";
 
       std::string milFact = std::to_string(model.MileageBetweenGasStations);
-      milFact.resize(20, ' ');
+      milFact.resize(10, ' ');
       resultArray[6] += milFact + "|";
 
       std::string milL = std::to_string(model.MileagePerLiter);
-      milL.resize(20, ' ');
+      milL.resize(10, ' ');
       resultArray[7] += milL + "|";
 
       std::string costKm = std::to_string(model.CostOfOneKmRun);
-      costKm.resize(20, ' ');
+      costKm.resize(10, ' ');
       resultArray[8] += costKm + "|";
 
       std::string costDay = std::to_string(model.CostOneDay);
-      costDay.resize(20, ' ');
+      costDay.resize(10, ' ');
       resultArray[9] += costDay + "|";
 
       std::string timeLiter = std::to_string(model.ConsumptionTimeOfOneLiter);
-      timeLiter.resize(20, ' ');
+      timeLiter.resize(10, ' ');
       resultArray[10] += timeLiter + "|";
 
       if (i == purchasesModel.size() - 1)

@@ -3,7 +3,7 @@
 #include "TaskInfo.h"
 #include <iostream>
 #include <functional>
-#include "../ConsoleWorkLib/SimpleConsoleFunction.cpp"
+#include "../ConsoleWorkLib/SimpleConsoleFunction.h"
 #include "../ConsoleWorkLib/SimpleFileFunctions.h"
 namespace UserControlMainLib {
   class UserInterfaceClaim
