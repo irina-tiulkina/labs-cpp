@@ -1,9 +1,9 @@
 #include <string>
 #include <locale.h>
-#include "../UserControl/L1.h"
-#include "../UserControl/UserInterfaceClaim.h"
-#include "../ConsoleWorkLib/SimpleConsoleFunction.cpp"
-#include <L2.h>
+#include "../LabOneLib/LabOne.h"
+#include "../LabTwoLib/LabTwo.h"
+#include "../ConsoleWorkLib/SimpleConsoleFunction.h"
+#include "../UserControlMainLib/UserInterfaceClaim.h"
 
 const std::string exitNum = "0";
 const std::string labOneNum = "1";
@@ -14,10 +14,9 @@ int main() {
   SetConsoleOutputCP(1251);
   setlocale(LC_ALL, "Russian");
 
-
   while (true) {
-    L1 lab1;
-    L2 lab2;
+    LabOne lab1;
+    LabTwo lab2;
 
     std::string menu = "Меню: \n";
     std::string exitMenu = exitNum + ". Выйти из программы\n";

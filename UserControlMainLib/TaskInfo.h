@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-
 class TaskInfo
 {
 private:
@@ -11,7 +10,7 @@ private:
   std::string KursInfo = "4";
   std::string ResultInfo = "В результате программы получаем текст";
 public:
-  TaskInfo(){};
+  TaskInfo() {};
   TaskInfo(std::string target, std::string author, std::string aboutTask, std::string group, std::string kurs, std::string result) {
     TargetInfo = target;
     AuthorInfo = author;

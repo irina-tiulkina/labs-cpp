@@ -1,10 +1,10 @@
 #pragma once
 #include <string>
 #include "TaskInfo.h"
-#include "../ConsoleWorkLib/SimpleConsoleFunction.h"
-#include "../ConsoleWorkLib/SimpleFileFunctions.h"
-#include "../ConsoleWorkLib/StringTransform.h"
+#include <iostream>
 #include <functional>
+#include "../ConsoleWorkLib/SimpleConsoleFunction.cpp"
+#include "../ConsoleWorkLib/SimpleFileFunctions.h"
 
 class UserInterfaceClaim
 {
@@ -65,7 +65,7 @@ protected:
   ) const;
 
 public:
-  
+
   std::string GetTitleTask() const;
 
   /// <summary>
@@ -73,7 +73,7 @@ public:
   /// </summary>
   void AboutProgrammToConsole() const;
   virtual void StartCycleProgramm() const = 0;
-  UserInterfaceClaim(const TaskInfo &taskInfo);
+  UserInterfaceClaim(const TaskInfo& taskInfo);
   virtual ~UserInterfaceClaim() {};
 };
 

@@ -1,10 +1,9 @@
 #include "pch.h"
 #include "SimpleFileFunctions.h"
-#include <wtypes.h>
-#include <minwinbase.h>
 
 
-void SimpleFileFunctions::SaveStringToFile(const std::string& text, const std::string& path)
+
+void sff_t::SaveStringToFile(const std::string& text, const std::string& path)
 {
   std::ofstream out; // поток для записи
   out.open(path); // окрываем файл для записи
@@ -18,7 +17,7 @@ void SimpleFileFunctions::SaveStringToFile(const std::string& text, const std::s
   out.close();
 }
 
-std::string SimpleFileFunctions::GetStringFromFile(const std::string& path)
+std::string sff_t::GetStringFromFile(const std::string& path)
 {
   std::ifstream in(path); // окрываем файл для чтения
   std::string str = "";
@@ -39,7 +38,7 @@ std::string SimpleFileFunctions::GetStringFromFile(const std::string& path)
   return str;
 }
 
-bool SimpleFileFunctions::FileExists(const std::string& path)
+bool sff_t::FileExists(const std::string& path)
 {
   bool isExist = false;
   std::ifstream fin(path);

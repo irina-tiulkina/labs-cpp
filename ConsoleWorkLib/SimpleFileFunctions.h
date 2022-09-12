@@ -2,6 +2,8 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <wtypes.h>
+#include <minwinbase.h>
 
 class SimpleFileFunctions
 {

@@ -1,22 +1,6 @@
 #pragma once
+#include "DataYearMonthDay.h"
 #include <string>
-
-struct DataYearMonthDay {
-  int Day;  // day of month from 1 to 31
-  int Month;   // month of year from 1 to 12
-  int Year;  // year since 1900
-
-  DataYearMonthDay(int year, int month, int day) {
-    Year = year;
-    Month = month;
-    Day = day;
-  }
-
-  DataYearMonthDay() {
-
-  }
-};
-
 class GasolineLogModel
 {
 public:
@@ -65,6 +49,19 @@ public:
   /// Время расходования одного галлона (в днях)
   /// </summary>
   double ConsumptionTimeOfOneLiter;
+
+  GasolineLogModel() {
+    Date = DataYearMonthDay();
+    Mark = "";
+    MileageOnTheSensor = 0;
+    PriceOfLiter = 0;
+    NumberOfLiters = 0;
+    TotalCost = 0;
+    MileageBetweenGasStations = 0;
+    MileagePerLiter = 0;
+    CostOfOneKmRun = 0;
+    CostOneDay = 0;
+    ConsumptionTimeOfOneLiter = 0;
+  };
 };
 
-typedef GasolineLogModel glmodel;

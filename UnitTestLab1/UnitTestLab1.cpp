@@ -1,6 +1,6 @@
 ﻿#include "pch.h"
 #include "CppUnitTest.h"
-#include "../UserControl/L1.h"
+#include "../LabOneLib/LabOne.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -17,7 +17,7 @@ namespace UnitTestLab1
 			std::string expected = "abc abc abc a";
 			
 			//act
-			L1 lab1;
+			LabOne lab1;
 			std::string actual = lab1.ProgrammFunction(inputData);
 
 			//asserts
@@ -31,7 +31,7 @@ namespace UnitTestLab1
 			std::string expected = "a a a a";
 
 			//act
-			L1 lab1;
+			LabOne lab1;
 			std::string actual = lab1.ProgrammFunction(inputData);
 
 			//asserts
@@ -45,7 +45,7 @@ namespace UnitTestLab1
 			std::string expected = "a";
 
 			//act
-			L1 lab1;
+			LabOne lab1;
 			std::string actual = lab1.ProgrammFunction(inputData);
 
 			//asserts
@@ -59,7 +59,7 @@ namespace UnitTestLab1
 			std::string expected = "aa a a a a a a a a a a a a a a a a a";
 
 			//act
-			L1 lab1;
+			LabOne lab1;
 			std::string actual = lab1.ProgrammFunction(inputData);
 
 			//asserts
@@ -73,7 +73,7 @@ namespace UnitTestLab1
 			std::string expected = "aaaa aaa aa a";
 
 			//act
-			L1 lab1;
+			LabOne lab1;
 			std::string actual = lab1.ProgrammFunction(inputData);
 
 			//asserts

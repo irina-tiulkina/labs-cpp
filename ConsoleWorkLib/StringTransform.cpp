@@ -21,20 +21,4 @@ std::vector<std::string> StringTransform::Split(const std::string& s, char delim
   return elems;
 }
 
-template <typename T>
-std::string StringTransform::ToString(T val)
-{
-  std::ostringstream oss;
-  oss << val;
-  return oss.str();
-}
-
-
-double StringTransform::GetRealValueFromStr(const std::string& s)
-{
-  std::istringstream iss(s);
-  double res;
-  iss >> res;
-  return res;
-}
 

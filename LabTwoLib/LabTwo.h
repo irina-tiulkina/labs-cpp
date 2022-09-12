@@ -1,12 +1,17 @@
 #pragma once
-#include "UserInterfaceClaim.h"
+#include <string>
+#include "GasolineAverageValue.h"
 #include <vector>
-#include <vector>
-#include "../GasolineLogModels/GasolineAverageValue.h"
-#include <ctime>
+#include "../UserControlMainLib/UserInterfaceClaim.h"
+#include "DataYearMonthDay.h"
+#include "GasolineLogModel.h"
+#include <map>
+#include "../ConsoleWorkLib/StringTransform.h"
 
-class L2 final:
-  public UserInterfaceClaim
+typedef UserInterfaceClaim uic_t;
+
+class LabTwo final :
+  public uic_t
 {
 private:
   const std::string _infoForGetData = "В одном файле может быть несколько строк. Одна строка соответствует одной записи о покупке бензина.\
@@ -18,14 +23,14 @@ private:
   const size_t _countDateParameters = 3;
   double GetPositiveDoubleValue(std::string str, std::string strException) const;
   DataYearMonthDay GetDate(std::string strData) const;
-  std::vector<glmodel> QuickSortByMileage(std::vector<glmodel> array) const;
+  std::vector<GasolineLogModel> QuickSortByMileage(std::vector<GasolineLogModel>& array) const;
   int GetCountDayBetweenGasStation(DataYearMonthDay leftDay, DataYearMonthDay rightDay) const;
 protected:
 
 public:
-  glAverage GetAverageVeluesByGlModels(const std::vector<glmodel> &dlmodels) const;
-  std::vector<glAverage> GetAverageGlModelsByMarks(const std::vector<glmodel>& dlmodels) const;
-  std::vector<glmodel> ComputeExtensionParameters(const std::vector<glmodel> &models) const;
+  GasolineAverageValueModel GetAverageVeluesByGlModels(std::vector<GasolineLogModel>& dlmodels) const;
+  std::map<std::string, std::vector<GasolineAverageValueModel>>  GetAverageGlModelsByMarks(std::vector<GasolineLogModel>& dlmodels) const;
+  std::vector<GasolineLogModel> ComputeExtensionParameters(std::vector<GasolineLogModel>& models) const;
 
   /// <summary>
   ///  Для решения поставленной задачи
@@ -37,13 +42,13 @@ public:
   {
     CycleProgramm
     (
-      [&](std::string str) { return ProgrammFunction(str); }, 
+      [&](std::string str) { return ProgrammFunction(str); },
       _infoForGetData,
       _infoForGetData + "\nТекст считается законченным если в конце строки стоит $"
     );
   };
 
-  L2() : UserInterfaceClaim{ TaskInfo("Лабораторная работа 2 (Этюды для программистов стр.92)", 
+  LabTwo() : uic_t{ TaskInfo("Лабораторная работа 2 (Этюды для программистов стр.92)",
     R"S(По данным, имеющимся в журнале покупок бензина, напечатайте
         разнообразную контрольную статистику, показывающую водителю, во
         что обходится эксплуатация автомобиля.Исходные данные о каждой
@@ -57,8 +62,7 @@ public:
         двумя способами : за небольшой срок и за все время наблюдений.Кроме
         того, соберите данные по каждой марке бензина и напечатайте
         соответствующие средние значения.Не ограничивайте число различных
-        марок(с. 92).)S", 
-        "")} {};
-  ~L2() {};
+        марок(с. 92).)S",
+        "") } {};
+  ~LabTwo() {};
 };
-

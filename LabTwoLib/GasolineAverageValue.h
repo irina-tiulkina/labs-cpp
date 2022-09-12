@@ -1,9 +1,7 @@
 #pragma once
-#include <string>
 class GasolineAverageValueModel
 {
 public:
-  std::string Mark = "";
   /// <summary>
   /// Пробег между заправками
   /// </summary>
@@ -28,5 +26,14 @@ public:
   /// Время расходования одного галлона (в днях)
   /// </summary>
   double ConsumptionTimeOfOneLiter;
+
+  GasolineAverageValueModel() {
+    MileageBetweenGasStations = 0;
+    PriceOfLiter = 0;
+    MileagePerLiter = 0;
+    CostOfOneKmRun = 0;
+    CostOneDay = 0;
+    ConsumptionTimeOfOneLiter = 0;
+  }
 };
-typedef GasolineAverageValueModel glAverage;
+

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "UserInterfaceClaim.h"
 
+
 std::string UserInterfaceClaim::GetTitleTask() const
 {
   return TaskInfos.GetTitleTask();
@@ -25,7 +26,7 @@ void UserInterfaceClaim::CycleProgramm(
     // 2.4.4 (1) получить исходные данные из файла / консоли
     scf_t::StringToConsole("Введите " + _inputDataFromFileNum + " если хотите получить данные из файла, если из консоли любой другой символ/строку");
 
-    std::string inputData = scf_t::StringFromConsoleByLine() == _inputDataFromFileNum ? 
+    std::string inputData = scf_t::StringFromConsoleByLine() == _inputDataFromFileNum ?
       uic_t::GetInputDataFromFile(infoForGetDataFromFile) : uic_t::GetInputDataFromConsole(infoForGetDataFromConsole);
 
     // 2.4.4 (1) сохранить исходные данные в файл
@@ -41,13 +42,13 @@ void UserInterfaceClaim::CycleProgramm(
       scf_t::StringToConsole("Результат:");
       scf_t::StringToConsole(resultData);
     }
-    catch(std::exception err) {
+    catch (std::exception err) {
       scf_t::ErrorTextToConsole(err.what());
       if (IsExitToMainMenu())
         return;
       continue;
     }
-    
+
     // 2.4.4 (1) сохранить результат работы в файл
     scf_t::StringToConsole("Введите " + _saveDataToFileNum + " если хотите сохранить результат в файл, иначе любой другой символ/строку");
     if (scf_t::StringFromConsoleByLine() == _saveDataToFileNum) {
@@ -61,7 +62,7 @@ void UserInterfaceClaim::CycleProgramm(
   }
 }
 
-UserInterfaceClaim::UserInterfaceClaim(const TaskInfo &taskInfo)
+UserInterfaceClaim::UserInterfaceClaim(const TaskInfo& taskInfo)
 {
   TaskInfos = taskInfo;
 };
@@ -116,7 +117,7 @@ void UserInterfaceClaim::SaveDataToFile(std::string inputText) const
   while (true) {
     scf_t::StringToConsole("Введите полный путь к файлу: ");
     std::string fullFilePath = scf_t::StringFromConsoleByLine();
-    
+
     // Проверка на существование файла
     if (sff_t::FileExists(fullFilePath) && !RestoreFile()) {
       continue;
@@ -126,7 +127,7 @@ void UserInterfaceClaim::SaveDataToFile(std::string inputText) const
       sff_t::SaveStringToFile(inputText, fullFilePath);
       return;
     }
-    catch(...){
+    catch (...) {
       scf_t::ErrorTextToConsole(_processFileSaveError);
       continue;
     }
