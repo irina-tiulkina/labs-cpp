@@ -124,7 +124,9 @@ namespace UserControlMainLib {
       }
 
       try {
+        GetTextInfosLib::SimpleConsoleFunction::InfoTextToConsole("Файл сохраняется...");
         GetTextInfosLib::SimpleFileFunctions::SaveStringToFile(inputText, fullFilePath);
+        GetTextInfosLib::SimpleConsoleFunction::InfoTextToConsole("Файл сохранился успешно");
         return;
       }
       catch (...) {

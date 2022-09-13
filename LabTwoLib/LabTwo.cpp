@@ -1,10 +1,11 @@
 #include "pch.h"
 #include "LabTwo.h"
+#include <ctime>
 
 namespace LabTwoLib {
   double LabTwo::GetPositiveDoubleValue(std::string str, std::string strException) const
   {
-    std::string dataStr = GetTextInfosLib::StringTransform::Replace(str, ',', ".");
+    std::string dataStr = GetTextInfosLib::StringTransform::Replace(str, '.', ",");
     double value;
     try {
       value = std::stod(dataStr);
@@ -15,7 +16,7 @@ namespace LabTwoLib {
     catch (...) {
       throw std::exception(strException.c_str());
     }
-    return 0.0;
+    return value;
   }
 
   DataYearMonthDay LabTwo::GetDate(std::string strData) const
@@ -99,16 +100,25 @@ namespace LabTwoLib {
 
   int LabTwo::GetCountDayBetweenGasStation(DataYearMonthDay leftDay, DataYearMonthDay rightDay) const
   {
-    struct tm a = { 0,0,0,leftDay.Day,leftDay.Month,leftDay.Year }; /* June 24, 2004 */
-    struct tm b = { 0,0,0,rightDay.Day,rightDay.Month,rightDay.Year }; /* July 5, 2004 */
+    struct tm a = { 0,0,0,leftDay.Day,leftDay.Month-1,leftDay.Year -1900}; /* June 24, 2004 */
+    struct tm b = { 0,0,0,rightDay.Day,rightDay.Month-1,rightDay.Year -1900}; /* July 5, 2004 */
     std::time_t x = std::mktime(&a);
     std::time_t y = std::mktime(&b);
 
     int difference = std::difftime(y, x) / (60 * 60 * 24);
+
     return difference;
   }
 
-  GasolineAverageValueModel LabTwo::GetAverageVeluesByGlModels(std::vector<GasolineLogModel>& dlmodels) const
+  std::string LabTwo::ToStringFromDouble(double value, int countValAfterPoint = 3) const
+  {
+    std::ostringstream out;
+    out.precision(3);
+    out << std::fixed << value;
+    return out.str();
+  }
+
+  GasolineAverageValueModel LabTwo::GetAverageValuesByGlModels(const std::vector<GasolineLogModel>& dlmodels) const
   {
     GasolineAverageValueModel average;
     average.ConsumptionTimeOfOneLiter = 0;
@@ -139,12 +149,24 @@ namespace LabTwoLib {
     return average;
   }
 
-  std::map<std::string, std::vector<GasolineAverageValueModel>> LabTwo::GetAverageGlModelsByMarks(std::vector<GasolineLogModel>& dlmodels) const
+  std::map<std::string, GasolineAverageValueModel> LabTwo::GetAverageGlModelsByMarks(const std::vector<GasolineLogModel>& glmodels) const
   {
-    return std::map<std::string, std::vector<GasolineAverageValueModel>>();
+    std::map<std::string, std::vector<GasolineLogModel>> glmap;
+    for (int i = 0; i < glmodels.size(); i++) {
+      auto model = glmodels[i];
+      glmap.emplace(model.Mark, std::vector<GasolineLogModel>());
+      glmap[model.Mark].push_back(model);
+    }
+
+    std::map<std::string, GasolineAverageValueModel> averageMap;
+    for (const auto& kv : glmap) {
+      averageMap.insert_or_assign(kv.first, GetAverageValuesByGlModels(kv.second));
+    }
+
+    return averageMap;
   }
 
-  std::vector<GasolineLogModel> LabTwo::ComputeExtensionParameters(std::vector<GasolineLogModel>& models) const
+  std::vector<GasolineLogModel> LabTwo::ComputeExtensionParameters(const std::vector<GasolineLogModel>& models) const
   {
     // сортируем по пробегу
     std::vector<GasolineLogModel> purchasesModel = models;
@@ -162,6 +184,10 @@ namespace LabTwoLib {
       int countDayBetweenStation = GetCountDayBetweenGasStation(purchasesModel[i - 1].Date, purchasesModel[i].Date);
 
       purchasesModel[i].MileageBetweenGasStations = purchasesModel[i].MileageOnTheSensor - purchasesModel[i - 1].MileageOnTheSensor;
+
+      if (purchasesModel[i].MileageBetweenGasStations <= 0) {
+        throw "Ошибка в пробегах. Нельзя оплатить заправку, если пройдено 0 км. Проверьте указанные данные.";
+      }
       // пройденные км / кол-во литров
       purchasesModel[i].MileagePerLiter = purchasesModel[i].MileageBetweenGasStations / purchasesModel[i].NumberOfLiters;
       // кол-во литров за км * стоимость литра | сумма / пройденные км
@@ -183,7 +209,7 @@ namespace LabTwoLib {
       std::vector<std::string> purchase = GetTextInfosLib::StringTransform::Split(purchases[i], ' ');
       if (purchase.size() != _countInputParameters)
       {
-        std::string exStr = "Количество параметров в строке " + std::to_string(i + 1) + "не равно" + std::to_string(_countInputParameters);
+        std::string exStr = "Количество параметров в строке " + std::to_string(i + 1) + " не равно " + std::to_string(_countInputParameters);
         throw std::exception(exStr.c_str());
       }
 
@@ -192,14 +218,19 @@ namespace LabTwoLib {
       try {
         gl.Date = GetDate(purchase[0]);
         gl.Mark = purchase[1];
-        gl.MileageOnTheSensor = GetPositiveDoubleValue(purchase[2], "Проверьте запись пробега");
-        gl.PriceOfLiter = GetPositiveDoubleValue(purchase[3], "Проверьте запись цены галлона");
-        gl.NumberOfLiters = GetPositiveDoubleValue(purchase[4], "Проверьте запись количества галлонов");
-        gl.TotalCost = GetPositiveDoubleValue(purchase[5], "Проверьте запись суммы");
+        gl.MileageOnTheSensor = GetPositiveDoubleValue(purchase[2], " Проверьте запись пробега");
+        gl.PriceOfLiter = GetPositiveDoubleValue(purchase[3], " Проверьте запись цены галлона");
+        gl.NumberOfLiters = GetPositiveDoubleValue(purchase[4], " Проверьте запись количества галлонов");
+        gl.TotalCost = GetPositiveDoubleValue(purchase[5], " Проверьте запись суммы");
       }
       catch (std::exception ex) {
-        std::string exStr = "В строке" + std::to_string(i) + " ошибка. " + ex.what();
+        std::string exStr = "В строке " + std::to_string(i+1) + " ошибка. " + ex.what();
         throw std::exception(exStr.c_str());
+      }
+
+      if (std::abs(gl.PriceOfLiter * gl.NumberOfLiters - gl.TotalCost) >= 0.3 ) {
+        std::string strEx = "В строке " + std::to_string(i+1) + " ошибка. Указанная общая стоимость значительно отличается от рассчитанной.";
+        throw std::exception(strEx.c_str());
       }
       purchasesModel.push_back(gl);
     }
@@ -207,95 +238,33 @@ namespace LabTwoLib {
     // ----- Вычисление статистики ------
 
     purchasesModel = ComputeExtensionParameters(purchasesModel);
-    GasolineAverageValueModel averageValues = GetAverageVeluesByGlModels(purchasesModel);
-    std::map<std::string, std::vector<GasolineAverageValueModel>> averageByMarks = GetAverageGlModelsByMarks(purchasesModel);
+    GasolineAverageValueModel averageValues = GetAverageValuesByGlModels(purchasesModel);
+    std::map<std::string, GasolineAverageValueModel> averageByMarks = GetAverageGlModelsByMarks(purchasesModel);
 
     // ------- Формирование результатов в строковую переменную --------
+    std::string result = "";
+    int sizeCharItem = 15;
     std::vector<std::string> resultArray;
-    resultArray.push_back("Дата              | ");
-    resultArray.push_back("Марка бензина     | ");
-    resultArray.push_back("Пробег(км)        | ");
-    resultArray.push_back("Цена литра(руб)   | ");
-    resultArray.push_back("Кол-во литров     | ");
-    resultArray.push_back("Сумма             | ");
-    resultArray.push_back("ПробегФакт        | ");
-    resultArray.push_back("Пробег на литр    | ");
-    resultArray.push_back("Цена/км           | ");
-    resultArray.push_back("Цена/день         | ");
-    resultArray.push_back("Расход литра (дни)| ");
+    std::vector<std::string> headerMainVector{ "Дата", "Марка бензина", "Пробег(км)", "Цена литра(руб)",
+      "Кол-во литров", "Сумма", "ПробегФакт", "Пробег на литр", "Цена/км", "Цена/день", "Время на 1л" };
+    
+    resultArray.push_back(GetStrRowForTable(headerMainVector, sizeCharItem));
 
     for (int i = 0; i < purchasesModel.size(); i++) {
       GasolineLogModel model = purchasesModel[i];
 
-      std::string date = std::to_string(model.Date.Year) + "." + std::to_string(model.Date.Month) + "." + std::to_string(model.Date.Day);
-      date.resize(10, ' ');
-      resultArray[0] += date + "|";
-
-      std::string mark = model.Mark;
-      mark.resize(10, ' ');
-      resultArray[1] += mark + "|";
-
-      std::string mileageSensor = std::to_string(model.MileageOnTheSensor);
-      mileageSensor.resize(10, ' ');
-      resultArray[2] += mileageSensor + "|";
-
-      std::string coastLiter = std::to_string(model.PriceOfLiter);
-      coastLiter.resize(10, ' ');
-      resultArray[3] += coastLiter + "|";
-
-      std::string conutliters = std::to_string(model.NumberOfLiters);
-      conutliters.resize(10, ' ');
-      resultArray[4] += conutliters + "|";
-
-      std::string totalCost = std::to_string(model.TotalCost);
-      totalCost.resize(10, ' ');
-      resultArray[5] += totalCost + "|";
-
-      std::string milFact = std::to_string(model.MileageBetweenGasStations);
-      milFact.resize(10, ' ');
-      resultArray[6] += milFact + "|";
-
-      std::string milL = std::to_string(model.MileagePerLiter);
-      milL.resize(10, ' ');
-      resultArray[7] += milL + "|";
-
-      std::string costKm = std::to_string(model.CostOfOneKmRun);
-      costKm.resize(10, ' ');
-      resultArray[8] += costKm + "|";
-
-      std::string costDay = std::to_string(model.CostOneDay);
-      costDay.resize(10, ' ');
-      resultArray[9] += costDay + "|";
-
-      std::string timeLiter = std::to_string(model.ConsumptionTimeOfOneLiter);
-      timeLiter.resize(10, ' ');
-      resultArray[10] += timeLiter + "|";
-
-      if (i == purchasesModel.size() - 1)
-      {
-        resultArray[0] += "\n";
-        resultArray[1] += "\n";
-        resultArray[2] += "\n";
-        resultArray[3] += "\n";
-        resultArray[4] += "\n";
-        resultArray[5] += "\n";
-        resultArray[6] += "\n";
-        resultArray[7] += "\n";
-        resultArray[8] += "\n";
-        resultArray[9] += "\n";
-        resultArray[10] += "\n";
-      }
+      resultArray.push_back(GetStrRowForTable(GetStrVectorFromGasolineModel(model), sizeCharItem));
     }
     resultArray.push_back("\n*-1 ставится если недостаточно данных для расчета\n");
-    resultArray.push_back("\nЗа все время наблюдений: \n");
-    resultArray.push_back("ПробегФакт        | " + std::to_string(averageValues.MileageBetweenGasStations) + " \n");
-    resultArray.push_back("Цена одного литра | " + std::to_string(averageValues.PriceOfLiter) + " \n");
-    resultArray.push_back("Пробег на литр    | " + std::to_string(averageValues.MileagePerLiter) + " \n");
-    resultArray.push_back("Цена/км           | " + std::to_string(averageValues.CostOfOneKmRun) + " \n");
-    resultArray.push_back("Цена/день         | " + std::to_string(averageValues.CostOneDay) + " \n");
-    resultArray.push_back("Расход литра (дни)| " + std::to_string(averageValues.ConsumptionTimeOfOneLiter) + " \n");
 
-    std::string result = "";
+    std::vector<std::string> averageHeader = { "", "ПробегФакт", "Цена одного литра", "Пробег на литр", "Цена/км", "Цена/день", "Время на 1л" };
+    resultArray.push_back("\nЗа все время наблюдений: \n");
+    resultArray.push_back(GetStrRowForTable(averageHeader, sizeCharItem));
+    resultArray.push_back(GetStrRowForTable(GetStrVectorFromGasolineAverageValueModel("Все марки", averageValues), sizeCharItem));
+
+    for (const auto& kv : averageByMarks) {
+      resultArray.push_back(GetStrRowForTable(GetStrVectorFromGasolineAverageValueModel(kv.first, kv.second), sizeCharItem));
+    }
 
     for (int i = 0; i < resultArray.size(); i++) {
       result += resultArray[i];
@@ -304,13 +273,55 @@ namespace LabTwoLib {
     return result;
   }
 
+  std::vector<std::string> LabTwo::GetStrVectorFromGasolineAverageValueModel(const std::string &mark, GasolineAverageValueModel averageValues) const {
+    std::string milFact = ToStringFromDouble(averageValues.MileageBetweenGasStations);
+    std::string coastLiter = ToStringFromDouble(averageValues.PriceOfLiter);
+    std::string milL = ToStringFromDouble(averageValues.MileagePerLiter);
+    std::string costKm = ToStringFromDouble(averageValues.CostOfOneKmRun);
+    std::string costDay = ToStringFromDouble(averageValues.CostOneDay);;
+    std::string timeLiter = ToStringFromDouble(averageValues.ConsumptionTimeOfOneLiter);
+
+    std::vector<std::string> rowVector = { mark, milFact , coastLiter , milL , costKm ,costDay , timeLiter };
+    return rowVector;
+  }
+
+  std::vector<std::string> LabTwo::GetStrVectorFromGasolineModel(GasolineLogModel model) const {
+    std::string date = std::to_string(model.Date.Year) + "." + std::to_string(model.Date.Month) + "." + std::to_string(model.Date.Day);
+    std::string mark = model.Mark;
+    std::string mileageSensor = ToStringFromDouble(model.MileageOnTheSensor);
+    std::string coastLiter = ToStringFromDouble(model.PriceOfLiter);
+    std::string conutliters = ToStringFromDouble(model.NumberOfLiters);
+    std::string totalCost = ToStringFromDouble(model.TotalCost);
+    std::string milFact = ToStringFromDouble(model.MileageBetweenGasStations);
+    std::string milL = ToStringFromDouble(model.MileagePerLiter);
+    std::string costKm = ToStringFromDouble(model.CostOfOneKmRun);
+    std::string costDay = ToStringFromDouble(model.CostOneDay);;
+    std::string timeLiter = ToStringFromDouble(model.ConsumptionTimeOfOneLiter);
+
+    std::vector<std::string> rowVector = { date, mark,mileageSensor, coastLiter,conutliters,totalCost,
+      milFact, milL, costKm, costDay, timeLiter };
+    return rowVector;
+  }
+
+  std::string LabTwo::GetStrRowForTable(const std::vector<std::string>& items, int sizeItemHeader) const
+  {
+    std::string row = "";
+    for (int i = 0; i < items.size(); i++) {
+      std::string itemStr = items[i];
+      itemStr.resize(sizeItemHeader, ' ');
+      row += itemStr + "|";
+    }
+    row += "\n";
+    return row;
+  }
+
   void LabTwo::StartCycleProgramm() const
   {
     CycleProgramm
     (
       [&](std::string str) { return ProgrammFunction(str); },
       _infoForGetData,
-      _infoForGetData + "\nТекст считается законченным если в конце строки стоит $"
+      _infoForGetData + "\n!!!!(Текст считается законченным если в конце строки стоит $)!!!!\n"
     );
   };
 

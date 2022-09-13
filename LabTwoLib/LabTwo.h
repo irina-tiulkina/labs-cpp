@@ -27,12 +27,16 @@ namespace LabTwoLib {
     DataYearMonthDay GetDate(std::string strData) const;
     std::vector<GasolineLogModel> QuickSortByMileage(std::vector<GasolineLogModel>& array) const;
     int GetCountDayBetweenGasStation(DataYearMonthDay leftDay, DataYearMonthDay rightDay) const;
+    std::string ToStringFromDouble(double value, int countValAfterPoint) const;
+    std::string GetStrRowForTable(const std::vector<std::string>& items, int sizeItemHeader) const;
+    std::vector<std::string> GetStrVectorFromGasolineModel(GasolineLogModel model) const;
+    std::vector<std::string> GetStrVectorFromGasolineAverageValueModel(const std::string &mark, GasolineAverageValueModel averageValues) const;
   protected:
 
   public:
-    GasolineAverageValueModel GetAverageVeluesByGlModels(std::vector<GasolineLogModel>& dlmodels) const;
-    std::map<std::string, std::vector<GasolineAverageValueModel>>  GetAverageGlModelsByMarks(std::vector<GasolineLogModel>& dlmodels) const;
-    std::vector<GasolineLogModel> ComputeExtensionParameters(std::vector<GasolineLogModel>& models) const;
+    GasolineAverageValueModel GetAverageValuesByGlModels(const std::vector<GasolineLogModel>& dlmodels) const;
+    std::map<std::string, GasolineAverageValueModel>  GetAverageGlModelsByMarks(const std::vector<GasolineLogModel>& dlmodels) const;
+    std::vector<GasolineLogModel> ComputeExtensionParameters(const std::vector<GasolineLogModel>& models) const;
 
     /// <summary>
     ///  Для решения поставленной задачи
