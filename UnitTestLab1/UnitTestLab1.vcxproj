@@ -164,6 +164,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="UnitTestLab1.cpp" />
+    <ClCompile Include="UnitTestLab2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -171,6 +172,9 @@
   <ItemGroup>
     <ProjectReference Include="..\LabOneLib\LabOneLib.vcxproj">
       <Project>{b9e4d344-b6ed-499f-8f03-d1cdc0b9725a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\LabTwoLib\LabTwoLib.vcxproj">
+      <Project>{ad254420-4677-4577-ab8c-823e1d7f160c}</Project>
     </ProjectReference>
     <ProjectReference Include="..\UserControlMainLib\UserControlMainLib.vcxproj">
       <Project>{401a18d1-c5d0-418f-96ed-c23f936dfb98}</Project>
