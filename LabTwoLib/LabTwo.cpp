@@ -127,15 +127,21 @@ namespace LabTwoLib {
     average.MileageBetweenGasStations = 0;
     average.MileagePerLiter = 0;
     average.PriceOfLiter = 0;
+    
+    size_t countWithDays = dlmodels.size();
     for (int i = 0; i < dlmodels.size(); i++) {
       average.MileageBetweenGasStations += dlmodels[i].MileageBetweenGasStations;
       average.CostOfOneKmRun += dlmodels[i].CostOfOneKmRun;
       average.MileagePerLiter += dlmodels[i].MileagePerLiter;
       average.PriceOfLiter += dlmodels[i].PriceOfLiter;
-
-      if (i != 0) {
-        average.ConsumptionTimeOfOneLiter += dlmodels[i].ConsumptionTimeOfOneLiter;
-        average.CostOneDay += dlmodels[i].CostOneDay;
+      average.ConsumptionTimeOfOneLiter = average.ConsumptionTimeOfOneLiter == -1 ? 
+        dlmodels[i].ConsumptionTimeOfOneLiter : 
+        average.ConsumptionTimeOfOneLiter + dlmodels[i].ConsumptionTimeOfOneLiter;
+      average.CostOneDay = average.CostOneDay == -1 ? 
+        dlmodels[i].CostOneDay : 
+        average.CostOneDay + dlmodels[i].CostOneDay;
+      if (dlmodels[i].CostOneDay == -1) {
+        countWithDays--;
       }
     }
 
@@ -143,8 +149,8 @@ namespace LabTwoLib {
     average.CostOfOneKmRun /= dlmodels.size();
     average.MileagePerLiter /= dlmodels.size();
     average.PriceOfLiter /= dlmodels.size();
-    average.ConsumptionTimeOfOneLiter /= dlmodels.size() - 1;
-    average.CostOneDay /= dlmodels.size() - 1;
+    average.ConsumptionTimeOfOneLiter = average.ConsumptionTimeOfOneLiter == -1 ? -1 : average.ConsumptionTimeOfOneLiter / countWithDays;
+    average.CostOneDay = average.CostOneDay== -1 ? -1 : average.CostOneDay / countWithDays;
 
     return average;
   }
@@ -168,10 +174,13 @@ namespace LabTwoLib {
 
   std::vector<GasolineLogModel> LabTwo::ComputeExtensionParameters(const std::vector<GasolineLogModel>& models) const
   {
+    if (models.size() == 0) {
+      return std::vector<GasolineLogModel>();
+    }
     // сортируем по пробегу
     std::vector<GasolineLogModel> purchasesModel = models;
     purchasesModel = QuickSortByMileage(purchasesModel);
-
+    
     // расчет для каждой заправки
     purchasesModel[0].MileageBetweenGasStations = purchasesModel[0].MileageOnTheSensor;
     purchasesModel[0].MileagePerLiter = purchasesModel[0].MileageBetweenGasStations / purchasesModel[0].NumberOfLiters;
@@ -204,6 +213,8 @@ namespace LabTwoLib {
   {
     // ------- Проверка входных данных и преобразование данных в объект --------
     std::vector<std::string> purchases = GetTextInfosLib::StringTransform::Split(inputDataInString, '\n');
+    if (purchases.size() == 0)
+      throw std::exception("Было совершено 0 покупок. Проверьте исходные данные.");
     std::vector<GasolineLogModel> purchasesModel;
     for (int i = 0; i < purchases.size(); i++) {
       std::vector<std::string> purchase = GetTextInfosLib::StringTransform::Split(purchases[i], ' ');
@@ -255,8 +266,7 @@ namespace LabTwoLib {
 
       resultArray.push_back(GetStrRowForTable(GetStrVectorFromGasolineModel(model), sizeCharItem));
     }
-    resultArray.push_back("\n*-1 ставится если недостаточно данных для расчета\n");
-
+    
     std::vector<std::string> averageHeader = { "", "ПробегФакт", "Цена одного литра", "Пробег на литр", "Цена/км", "Цена/день", "Время на 1л" };
     resultArray.push_back("\nЗа все время наблюдений: \n");
     resultArray.push_back(GetStrRowForTable(averageHeader, sizeCharItem));
@@ -265,6 +275,8 @@ namespace LabTwoLib {
     for (const auto& kv : averageByMarks) {
       resultArray.push_back(GetStrRowForTable(GetStrVectorFromGasolineAverageValueModel(kv.first, kv.second), sizeCharItem));
     }
+
+    resultArray.push_back("\n*\"-\" ставится если недостаточно данных для расчета\n");
 
     for (int i = 0; i < resultArray.size(); i++) {
       result += resultArray[i];
@@ -276,10 +288,10 @@ namespace LabTwoLib {
   std::vector<std::string> LabTwo::GetStrVectorFromGasolineAverageValueModel(const std::string &mark, GasolineAverageValueModel averageValues) const {
     std::string milFact = ToStringFromDouble(averageValues.MileageBetweenGasStations);
     std::string coastLiter = ToStringFromDouble(averageValues.PriceOfLiter);
-    std::string milL = ToStringFromDouble(averageValues.MileagePerLiter);
-    std::string costKm = ToStringFromDouble(averageValues.CostOfOneKmRun);
-    std::string costDay = ToStringFromDouble(averageValues.CostOneDay);;
-    std::string timeLiter = ToStringFromDouble(averageValues.ConsumptionTimeOfOneLiter);
+    std::string milL =  ToStringFromDouble(averageValues.MileagePerLiter);
+    std::string costKm =  ToStringFromDouble(averageValues.CostOfOneKmRun);
+    std::string costDay = averageValues.CostOneDay == -1 ? "-" : ToStringFromDouble(averageValues.CostOneDay);;
+    std::string timeLiter = averageValues.ConsumptionTimeOfOneLiter == -1 ? "-" : ToStringFromDouble(averageValues.ConsumptionTimeOfOneLiter);
 
     std::vector<std::string> rowVector = { mark, milFact , coastLiter , milL , costKm ,costDay , timeLiter };
     return rowVector;
@@ -295,8 +307,8 @@ namespace LabTwoLib {
     std::string milFact = ToStringFromDouble(model.MileageBetweenGasStations);
     std::string milL = ToStringFromDouble(model.MileagePerLiter);
     std::string costKm = ToStringFromDouble(model.CostOfOneKmRun);
-    std::string costDay = ToStringFromDouble(model.CostOneDay);;
-    std::string timeLiter = ToStringFromDouble(model.ConsumptionTimeOfOneLiter);
+    std::string costDay = model.CostOneDay == -1 ? "-" : ToStringFromDouble(model.CostOneDay);;
+    std::string timeLiter = model.ConsumptionTimeOfOneLiter == -1 ? "-" : ToStringFromDouble(model.ConsumptionTimeOfOneLiter);
 
     std::vector<std::string> rowVector = { date, mark,mileageSensor, coastLiter,conutliters,totalCost,
       milFact, milL, costKm, costDay, timeLiter };

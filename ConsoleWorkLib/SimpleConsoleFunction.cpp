@@ -12,7 +12,7 @@ namespace GetTextInfosLib {
     SetConsoleOutputCP(1251);
 
     std::string str;
-    std::getline(std::cin, str);
+    std::getline(std::cin, str); /// !!!!
     return str;
   }
 

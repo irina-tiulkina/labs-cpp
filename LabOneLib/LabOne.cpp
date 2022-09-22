@@ -14,6 +14,7 @@ namespace LabOneLib {
         str += s[i];
       }
       else {
+        str += " ";
         continue;
       }
     }
@@ -44,13 +45,13 @@ namespace LabOneLib {
       }
     }
 
-    std::string str = "";
+    std::string newText = "";
 
     for (size_t i = 0; i < words.size(); i++) {
-      str += (i == words.size() - 1) ? words[i] : words[i] + ' ';
+      newText += (i == words.size() - 1) ? words[i] : words[i] + ' ';
     }
 
-    return str;
+    return newText;
   }
 
   void LabOne::StartCycleProgramm() const
