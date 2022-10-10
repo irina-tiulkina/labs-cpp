@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:AutoTestForIntegral3x"
         xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
         mc:Ignorable="d"
-        Title="Автоматическое тестирование Integral3x" Height="430" Width="700">
+        Title="Автоматическое тестирование Integral3x" Height="460" Width="700">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <Style TargetType="Button">
@@ -59,37 +59,39 @@
                         <wpfx:DoubleUpDown Minimum="0.000001" Maximum="1" Value="{Binding Settings.Accuracy}"></wpfx:DoubleUpDown>
                     </StackPanel>
                     <CheckBox Content="Позитивные тесты" IsChecked="{Binding Settings.IsPositiveTests}"  VerticalAlignment="Center"/>
-                    <CheckBox Content="Шаг фиксированный" IsChecked="{Binding Settings.IsFixStep}" 
-                              IsEnabled="{Binding Settings.IsNegativeTests}" VerticalAlignment="Center"/>
-                    <CheckBox Content="Произвольный метод" IsChecked="{Binding Settings.IsUnvalidMethod}" 
-                              IsEnabled="{Binding Settings.IsNegativeTests}" VerticalAlignment="Center"/>
-                </StackPanel>
-            </GroupBox>
-            <GroupBox Header="Исходные данные">
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Границы: " Width="60"></TextBlock>
-                        <TextBox Width="69" Text="{Binding Input.LeftBoundary}"></TextBox>
-                        <TextBlock Text=" - "></TextBlock>
-                        <TextBox Width="69" Text="{Binding Input.RightBoundary}"></TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Полином: " Width="60"></TextBlock>
-                        <TextBox Width="150" Text="{Binding Input.Polynome}"></TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Метод: " Width="60" VerticalAlignment="Center"></TextBlock>
-                        <TextBox Visibility="{Binding Settings.IsUnvalidMethod, Converter={StaticResource BoolToVisibilityConverter}}"
-                                 Width="150" Text="{Binding UnvalidMethod}"></TextBox>
+                        <TextBlock Text="Сценарий: " Width="70" VerticalAlignment="Center"></TextBlock>
                         <ComboBox Visibility="{Binding Settings.IsValidMethod, Converter={StaticResource BoolToVisibilityConverter}}" 
-                                  Width="150" SelectedItem="{Binding Input.Method }" 
-                                  ItemsSource="{Binding Methods}"
+                                  Width="190" SelectedItem="{Binding Settings.Scenario }" 
+                                  ItemsSource="{Binding Settings.TestingScenarios}" Height="60"
                                   DisplayMemberPath="Name">
                         </ComboBox>
                     </StackPanel>
-                    <StackPanel IsEnabled="{Binding Settings.IsFixStep}" Orientation="Horizontal">
-                        <TextBlock Text="Шаг: " Width="60" VerticalAlignment="Center"></TextBlock>
-                        <TextBox Width="150" VerticalAlignment="Center" Text="{Binding Input.Step}"></TextBox>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Исходные данные">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" IsEnabled="{Binding Settings.Scenario.IsInputBorder}">
+                        <TextBlock Text="Границы: " Width="60"></TextBlock>
+                        <TextBox Width="69"  Text="{Binding Settings.Input.LeftBoundary}"></TextBox>
+                        <TextBlock Text=" - "></TextBlock>
+                        <TextBox Width="69" Text="{Binding Settings.Input.RightBoundary}"></TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" IsEnabled="{Binding Settings.Scenario.IsInputPolinome}">
+                        <TextBlock Text="Полином: " Width="60"></TextBlock>
+                        <TextBox Width="150" Text="{Binding Settings.Input.Polynome}"></TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" IsEnabled="{Binding Settings.Scenario.IsInputStep}">
+                        <TextBlock Text="Шаг: " Width="60"></TextBlock>
+                        <TextBox Width="150" Text="{Binding Settings.Input.Step}"></TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" IsEnabled="{Binding Settings.Scenario.IsInputMethod}">
+                        <TextBlock Text="Метод: " Width="60" VerticalAlignment="Center"></TextBlock>
+                        <ComboBox Visibility="{Binding Settings.IsValidMethod, Converter={StaticResource BoolToVisibilityConverter}}" 
+                                  Width="150" SelectedItem="{Binding Settings.Input.Method }" 
+                                  ItemsSource="{Binding Settings.Methods}"
+                                  DisplayMemberPath="Name">
+                        </ComboBox>
                     </StackPanel>
                 </StackPanel>
             </GroupBox>

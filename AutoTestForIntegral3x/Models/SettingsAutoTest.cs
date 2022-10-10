@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,25 +11,62 @@ namespace AutoTestForIntegral3x.Models
 {
     public class SettingsAutoTest : ViewModelBase
     {
+        public SettingsAutoTest(ObservableCollection<Method> methods, ObservableCollection<InfoTestingScenario> testingScenarios)
+        {
+            Methods = methods;
+            TestingScenarios = testingScenarios;
+        }
+
+        private InputData _input;
         private int _countTests;
         private bool _isPositiveTests;
-        private bool _isFixStep;
         private double _accuracy;
-        private bool _isUnvalidMethod;
+        private InfoTestingScenario _scenario;
 
+        public ObservableCollection<Method> Methods { get; }
+        public ObservableCollection<InfoTestingScenario> TestingScenarios { get; }
 
-        public bool IsUnvalidMethod
+        public InfoTestingScenario Scenario
         {
-            get => _isUnvalidMethod;
+            get => _scenario;
             set
             {
-                _isUnvalidMethod = value; 
+                _scenario = value; 
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(IsValidMethod));
+                if (!_scenario.IsInputBorder)
+                {
+                    Input.LeftBoundary = null;
+                    Input.RightBoundary = null;
+                }
+
+                if (!_scenario.IsInputMethod)
+                {
+                    Input.Method = null;
+                }
+
+                if (!_scenario.IsInputPolinome)
+                {
+                    Input.Polynome = null;
+                }
+
+                if (!_scenario.IsInputStep)
+                {
+                    Input.Step = null;
+                }
             }
         }
 
-        public bool IsValidMethod => !IsUnvalidMethod;
+        public InputData Input
+        {
+            get => _input;
+            set
+            {
+                _input = value;
+                OnPropertyChanged(nameof(Input));
+                //this.RaiseAndSetIfChanged(ref input, value);
+            }
+        }
+
         public int CountTests
         {
             get => _countTests;
@@ -47,25 +85,10 @@ namespace AutoTestForIntegral3x.Models
                 _isPositiveTests = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsNegativeTests));
-                if (_isPositiveTests)
-                {
-                    IsFixStep = false;
-                    IsUnvalidMethod = false;
-                }
             }
         }
 
         public bool IsNegativeTests => !IsPositiveTests;
-
-        public bool IsFixStep
-        {
-            get => _isFixStep;
-            set
-            {
-                _isFixStep = value; 
-                OnPropertyChanged();
-            }
-        }
 
         public double Accuracy
         {

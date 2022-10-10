@@ -110,10 +110,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Autofac\ViewsModule.cs" />
+    <Compile Include="Interfaces\IGenerateAutoTests.cs" />
     <Compile Include="Models\InputData.cs" />
     <Compile Include="Models\Method.cs" />
     <Compile Include="Models\ResultTest.cs" />
     <Compile Include="Models\SettingsAutoTest.cs" />
+    <Compile Include="Models\InfoTestingScenario.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\Annotations1.cs" />
     <Compile Include="vm\AsyncCommand.cs" />
@@ -161,7 +163,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Interfaces\" />
     <Folder Include="Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
