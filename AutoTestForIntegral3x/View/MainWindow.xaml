@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:AutoTestForIntegral3x"
         xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
         mc:Ignorable="d"
-        Title="Автоматическое тестирование Integral3x" Height="460" Width="700">
+        Title="Автоматическое тестирование Integral3x" Height="700" Width="700" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <Style TargetType="Button">
@@ -49,7 +49,7 @@
     <StackPanel>
         <StackPanel Orientation="Horizontal">
             <GroupBox Header="Настройки генератора тестов: ">
-                <StackPanel>
+                <StackPanel VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Width="196" Text="Кол-во генерируемых тест-кейсов: "></TextBlock>
                         <wpfx:IntegerUpDown Minimum="1" Value="{Binding Settings.CountTests}"></wpfx:IntegerUpDown>
@@ -58,64 +58,98 @@
                         <TextBlock Width="196" Text="Точность вычислений: "></TextBlock>
                         <wpfx:DoubleUpDown Minimum="0.000001" Maximum="1" Value="{Binding Settings.Accuracy}"></wpfx:DoubleUpDown>
                     </StackPanel>
-                    <CheckBox Content="Позитивные тесты" IsChecked="{Binding Settings.IsPositiveTests}"  VerticalAlignment="Center"/>
-                    <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Позитивные тесты" IsChecked="{Binding Settings.Scenario.IsPositiveTest}"  VerticalAlignment="Center"/>
+                    <!--<StackPanel Orientation="Horizontal">
                         <TextBlock Text="Сценарий: " Width="70" VerticalAlignment="Center"></TextBlock>
-                        <ComboBox Visibility="{Binding Settings.IsValidMethod, Converter={StaticResource BoolToVisibilityConverter}}" 
+                        <ComboBox Visibility="{Binding Settings.IsPositiveTests, Converter={StaticResource BoolToVisibilityConverter}}" 
                                   Width="190" SelectedItem="{Binding Settings.Scenario }" 
-                                  ItemsSource="{Binding Settings.TestingScenarios}" Height="60"
+                                  ItemsSource="{Binding Settings.TestingScenariosPositive}" Height="60"
                                   DisplayMemberPath="Name">
                         </ComboBox>
-                    </StackPanel>
+                        <ComboBox Visibility="{Binding Settings.IsNegativeTests, Converter={StaticResource BoolToVisibilityConverter}}" 
+                                  Width="190" SelectedItem="{Binding Settings.Scenario }" 
+                                  ItemsSource="{Binding Settings.TestingScenariosNegative}" Height="60"
+                                  DisplayMemberPath="Name">
+                        </ComboBox>
+                    </StackPanel>-->
                 </StackPanel>
             </GroupBox>
             <GroupBox Header="Исходные данные">
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal" IsEnabled="{Binding Settings.Scenario.IsInputBorder}">
-                        <TextBlock Text="Границы: " Width="60"></TextBlock>
-                        <TextBox Width="69"  Text="{Binding Settings.Input.LeftBoundary}"></TextBox>
-                        <TextBlock Text=" - "></TextBlock>
-                        <TextBox Width="69" Text="{Binding Settings.Input.RightBoundary}"></TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" IsEnabled="{Binding Settings.Scenario.IsInputPolinome}">
-                        <TextBlock Text="Полином: " Width="60"></TextBlock>
-                        <TextBox Width="150" Text="{Binding Settings.Input.Polynome}"></TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" IsEnabled="{Binding Settings.Scenario.IsInputStep}">
-                        <TextBlock Text="Шаг: " Width="60"></TextBlock>
-                        <TextBox Width="150" Text="{Binding Settings.Input.Step}"></TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" IsEnabled="{Binding Settings.Scenario.IsInputMethod}">
-                        <TextBlock Text="Метод: " Width="60" VerticalAlignment="Center"></TextBlock>
-                        <ComboBox Visibility="{Binding Settings.IsValidMethod, Converter={StaticResource BoolToVisibilityConverter}}" 
-                                  Width="150" SelectedItem="{Binding Settings.Input.Method }" 
-                                  ItemsSource="{Binding Settings.Methods}"
-                                  DisplayMemberPath="Name">
-                        </ComboBox>
-                    </StackPanel>
+                <StackPanel VerticalAlignment="Center">
+                    <CheckBox IsChecked="{Binding Settings.Scenario.IsInputBorder}">
+                        <StackPanel Margin="0 -3 0 0" Orientation="Horizontal" IsEnabled="{Binding Settings.Scenario.IsInputBorder}">
+                            <TextBlock Text="Границы: " Width="60"></TextBlock>
+                            <TextBox Width="69"  Text="{Binding Settings.Input.LeftBoundary}"></TextBox>
+                            <TextBlock Text=" - "></TextBlock>
+                            <TextBox Width="69" Text="{Binding Settings.Input.RightBoundary}"></TextBox>
+                        </StackPanel>
+                    </CheckBox>
+                    <CheckBox  IsChecked="{Binding Settings.Scenario.IsInputPolinome}">
+                        <StackPanel Margin="0 -3 0 0" Orientation="Horizontal" IsEnabled="{Binding Settings.Scenario.IsInputPolinome}">
+                            <TextBlock Text="Полином: " Width="60"></TextBlock>
+                            <TextBox Width="150" Text="{Binding Settings.Input.Polynome}"></TextBox>
+                        </StackPanel>
+                    </CheckBox>
+                    <CheckBox IsChecked="{Binding Settings.Scenario.IsInputStep}">
+                        <StackPanel Margin="0 -3 0 0" Orientation="Horizontal" IsEnabled="{Binding Settings.Scenario.IsInputStep}">
+                            <TextBlock Text="Шаг: " Width="60"></TextBlock>
+                            <TextBox Width="150" Text="{Binding Settings.Input.Step}"></TextBox>
+                        </StackPanel>
+                    </CheckBox>
+                    <CheckBox IsChecked="{Binding Settings.Scenario.IsInputMethod}">
+                        <StackPanel Margin="0 -6 0 0" Orientation="Horizontal" IsEnabled="{Binding Settings.Scenario.IsInputMethod}">
+                            <TextBlock Text="Метод: " Width="60" VerticalAlignment="Center"></TextBlock>
+                            <ComboBox Width="150" SelectedItem="{Binding Settings.Input.Method }" 
+                                      ItemsSource="{Binding Settings.Methods}"
+                                      DisplayMemberPath="Name">
+                            </ComboBox>
+                        </StackPanel>
+                    </CheckBox>
                 </StackPanel>
             </GroupBox>
             <GroupBox Header="Действия" >
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Button Content="Запустить тесты" ></Button>
-                    <Button Content="Сформировать отчет" HorizontalAlignment="Center" VerticalAlignment="Center"></Button>
-                    <Button Content="Очистить результат" HorizontalAlignment="Center" VerticalAlignment="Center"></Button>
+                    <Button Command="{Binding StartTestsCommand}" Content="Запустить тесты" ></Button>
+                    <Button Command="{Binding ExportResultToReportCommand}" Content="Сформировать отчет" HorizontalAlignment="Center" VerticalAlignment="Center"></Button>
+                    <Button Command="{Binding ClearResultCommand}" Content="Очистить результат" HorizontalAlignment="Center" VerticalAlignment="Center"></Button>
                 </StackPanel>
             </GroupBox>
         </StackPanel>
         <StackPanel>
             <StackPanel>
-                <DataGrid Width="auto" Height="240" CanUserDeleteRows="False" CanUserAddRows="False" 
-                              IsReadOnly="True" AutoGenerateColumns="False">
+                <DataGrid Width="auto" Height="520" CanUserDeleteRows="False" CanUserAddRows="False" 
+                              IsReadOnly="True" AutoGenerateColumns="False"
+                              ItemsSource="{Binding Results}">
                     <!--ItemsSource="{Binding ResultAutoTestTable}"-->
                     <DataGrid.Columns>
-                        <DataGridTextColumn Width="40" Header="№" />
+                        <DataGridTextColumn Width="40" Header="№" Binding="{Binding Num}"/>
                         <!-- Binding="{Binding Path=Num, StringFormat='0.00'}" /> -->
-                        <DataGridTextColumn Width="*" Header="Исходные данные X"/>
-                        <DataGridTextColumn Width="50" Header="Тип т/к"/>
-                        <DataGridTextColumn Width="*" Header="Ожидаемый результат Ye"/>
-                        <DataGridTextColumn Width="*" Header="Фактический результат Ye" ></DataGridTextColumn>
-                        <DataGridTextColumn Width="90" Header="Вывод"></DataGridTextColumn>
+                        <DataGridTextColumn Width="*" Header="Исходные данные X" Binding="{Binding InputDate}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Width="50" Header="Тип т/к" Binding="{Binding TypeTest}"/>
+                        <DataGridTextColumn Width="*" Header="Ожидаемый результат Ye" Binding="{Binding PlanResult}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Width="*" Header="Фактический результат Ye" Binding="{Binding FactResult}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Width="90" Header="Вывод" Binding="{Binding Conculation}"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>

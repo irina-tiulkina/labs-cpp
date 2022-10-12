@@ -109,8 +109,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Autofac\ServicesModule.cs" />
     <Compile Include="Autofac\ViewsModule.cs" />
-    <Compile Include="Interfaces\IGenerateAutoTests.cs" />
+    <Compile Include="Services\ProgramProcess.cs" />
+    <Compile Include="Services\GenerateRandomInputData.cs" />
+    <Compile Include="Services\Interfaces\IGenerateAutoTests.cs" />
+    <Compile Include="Services\Interfaces\IGenerateRandomInputData.cs" />
+    <Compile Include="Services\Interfaces\IProgramProcess.cs" />
     <Compile Include="Models\InputData.cs" />
     <Compile Include="Models\Method.cs" />
     <Compile Include="Models\ResultTest.cs" />
@@ -118,6 +123,7 @@
     <Compile Include="Models\InfoTestingScenario.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\Annotations1.cs" />
+    <Compile Include="Services\GenerateAutoTests.cs" />
     <Compile Include="vm\AsyncCommand.cs" />
     <Compile Include="vm\MainViewModel.cs" />
     <Compile Include="vm\RelayCommand.cs" />
@@ -162,8 +168,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -27,6 +27,7 @@ namespace AutoTestForIntegral3x
             var builderBase = new ContainerBuilder();
 
             //builderBase.RegisterModule(new RepositoryModule());
+            builderBase.RegisterModule(new ServicesModule());
             builderBase.RegisterModule(new ViewsModule());
 
             var containerBase = builderBase.Build();

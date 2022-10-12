@@ -5,7 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using AutoTestForIntegral3x.Interfaces;
 using AutoTestForIntegral3x.Models;
+using AutoTestForIntegral3x.Services.Interfaces;
+using DynamicData;
 using ReactiveUI;
 
 namespace AutoTestForIntegral3x.vm
@@ -16,41 +19,43 @@ namespace AutoTestForIntegral3x.vm
         
         private SettingsAutoTest settings;
         private ObservableCollection<ResultTest> results;
-        private string unvalidMethod;
 
         #endregion
 
-        public MainViewModel()
+        private readonly IGenerateAutoTests _generateAutoTests;
+        public MainViewModel(IGenerateAutoTests generateAutoTests)
         {
-            var methods = new ObservableCollection<Method>()
-            {
-                new Method() { Name = "Метод парабол", Value = "1" },
-                new Method() { Name = "Метод трапеций", Value = "2" },
-                new Method() { Name = "Метод Монте-Карло", Value = "3" }
-            };
+            _generateAutoTests = generateAutoTests;
+            
 
-            var testingScenarios = new ObservableCollection<InfoTestingScenario>()
-            {
-                new InfoTestingScenario()
-                {
-                    Name = "Варьирование шага и метода \r\nинтегрирования в \r\nрегламентных диапазонах",
-                    IsInputBorder = true,
-                    IsInputMethod = false,
-                    IsInputPolinome = true,
-                    IsInputStep = false
-                },
-                new InfoTestingScenario()
-                {
-                    Name = "Неправильный формат \r\nшага и метода \r\nинтегрирования",
-                    IsInputBorder = true,
-                    IsInputMethod = false,
-                    IsInputPolinome = true,
-                    IsInputStep = false
-                }
-            };
+            //var scenariosPositive = new ObservableCollection<InfoTestingScenario>()
+            //{
+            //    new InfoTestingScenario()
+            //    {
+            //        TypeTest = TypeTest.PositiveVarStepAndMethod,
+            //        Name = "Варьирование шага и метода \r\nинтегрирования в \r\nрегламентных диапазонах",
+            //        IsInputBorder = true,
+            //        IsInputMethod = false,
+            //        IsInputPolinome = true,
+            //        IsInputStep = false
+            //    },
+            //};
+
+            //var scenariosNegative = new ObservableCollection<InfoTestingScenario>()
+            //{
+            //    new InfoTestingScenario()
+            //    {
+            //        TypeTest = TypeTest.NegativeVarStepAndMethod,
+            //        Name = "Неправильный формат \r\nшага и метода \r\nинтегрирования",
+            //        IsInputBorder = true,
+            //        IsInputMethod = false,
+            //        IsInputPolinome = true,
+            //        IsInputStep = false
+            //    }
+            //};
 
             // инициализация
-            Settings = new SettingsAutoTest(methods, testingScenarios);
+            Settings = new SettingsAutoTest();
             Results = new ObservableCollection<ResultTest>();
             
             StartTestsCommand = new AsyncCommand( StartTestsAsync, () => CanStartTests);
@@ -67,8 +72,8 @@ namespace AutoTestForIntegral3x.vm
             };
             Settings.Accuracy = 0.0001;
             Settings.CountTests = 10;
-            Settings.IsPositiveTests = true;
-            Settings.Scenario = Settings.TestingScenarios[0];
+            Settings.Scenario.IsPositiveTest = true;
+            //Settings.Scenario = Settings.TestingScenariosPositive[0];
         }
 
         #region Properties
@@ -102,16 +107,7 @@ namespace AutoTestForIntegral3x.vm
 
         public AsyncCommand StartTestsCommand { get; set; }
 
-        // todo: Исправить условия
-        private bool CanStartTests => (Settings.CountTests > 0)
-                                      && Settings.Input != null
-                                      && Settings.Accuracy > 0.000001
-                                      && Settings.Accuracy < 1
-                                      && !string.IsNullOrEmpty(Settings.Input.LeftBoundary)
-                                      && !string.IsNullOrEmpty(Settings.Input.RightBoundary)
-                                      && !string.IsNullOrEmpty(Settings.Input.Polynome)
-                                      && Settings.Input.Method != null
-                                      && !string.IsNullOrEmpty(Settings.Input.Method.Value) ;
+        private bool CanStartTests => Settings.IsValidInputData();
 
         public AsyncCommand ExportResultToReportCommand { get; set; }
 
@@ -126,27 +122,24 @@ namespace AutoTestForIntegral3x.vm
 
         private async Task StartTestsAsync()
         {
-            // todo: исправить условия !!!!
-            if (Settings.CountTests < 0 
-                || Settings.Accuracy < 0
-                || Settings.Accuracy > 1
-                || Settings.Input == null
-                || string.IsNullOrEmpty(Settings.Input.LeftBoundary)
-                || string.IsNullOrEmpty(Settings.Input.RightBoundary)
-                || string.IsNullOrEmpty(Settings.Input.Polynome)
-                || Settings.Input.Method == null
-                || string.IsNullOrEmpty(Settings.Input.Method.Value))
+            if (!Settings.IsValidInputData())
             {
+                MessageBox.Show("Некорректные входные данные!");
                 return;
             }
 
-            if (Settings.IsPositiveTests)
+            if (Settings.Scenario.IsPositiveTest)
             {
+
+                var results = await _generateAutoTests.GetPositiveResultTests(Settings);
                 
+                Results.AddRange(results);
             }
             else
             {
 
+                var results = await _generateAutoTests.GetNegativeResultTests(Settings);
+                Results.AddRange(results);
             }
         }
 
@@ -156,8 +149,9 @@ namespace AutoTestForIntegral3x.vm
         }
         private async Task ClearResultAsync()
         {
-
+            Results.Clear();
         }
+
         #endregion
     }
 }

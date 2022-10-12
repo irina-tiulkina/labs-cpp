@@ -11,21 +11,24 @@ namespace AutoTestForIntegral3x.Models
 {
     public class SettingsAutoTest : ViewModelBase
     {
-        public SettingsAutoTest(ObservableCollection<Method> methods, ObservableCollection<InfoTestingScenario> testingScenarios)
+        public SettingsAutoTest()
         {
-            Methods = methods;
-            TestingScenarios = testingScenarios;
+            Methods = new ObservableCollection<Method>()
+            {
+                new Method() { Name = "Метод парабол", Value = "1" },
+                new Method() { Name = "Метод трапеций", Value = "2" },
+                new Method() { Name = "Метод Монте-Карло", Value = "3" }
+            };
+            Scenario = new InfoTestingScenario();
+            Input = new InputData();
         }
 
         private InputData _input;
         private int _countTests;
-        private bool _isPositiveTests;
         private double _accuracy;
         private InfoTestingScenario _scenario;
 
         public ObservableCollection<Method> Methods { get; }
-        public ObservableCollection<InfoTestingScenario> TestingScenarios { get; }
-
         public InfoTestingScenario Scenario
         {
             get => _scenario;
@@ -33,26 +36,26 @@ namespace AutoTestForIntegral3x.Models
             {
                 _scenario = value; 
                 OnPropertyChanged();
-                if (!_scenario.IsInputBorder)
-                {
-                    Input.LeftBoundary = null;
-                    Input.RightBoundary = null;
-                }
+                //if (!_scenario.IsInputBorder)
+                //{
+                //    Input.LeftBoundary = null;
+                //    Input.RightBoundary = null;
+                //}
 
-                if (!_scenario.IsInputMethod)
-                {
-                    Input.Method = null;
-                }
+                //if (!_scenario.IsInputMethod)
+                //{
+                //    Input.Method = null;
+                //}
 
-                if (!_scenario.IsInputPolinome)
-                {
-                    Input.Polynome = null;
-                }
+                //if (!_scenario.IsInputPolinome)
+                //{
+                //    Input.Polynome = null;
+                //}
 
-                if (!_scenario.IsInputStep)
-                {
-                    Input.Step = null;
-                }
+                //if (!_scenario.IsInputStep)
+                //{
+                //    Input.Step = null;
+                //}
             }
         }
 
@@ -77,19 +80,6 @@ namespace AutoTestForIntegral3x.Models
             }
         }
 
-        public bool IsPositiveTests
-        {
-            get => _isPositiveTests;
-            set
-            {
-                _isPositiveTests = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(IsNegativeTests));
-            }
-        }
-
-        public bool IsNegativeTests => !IsPositiveTests;
-
         public double Accuracy
         {
             get => _accuracy;
@@ -99,5 +89,38 @@ namespace AutoTestForIntegral3x.Models
                 OnPropertyChanged();
             }
         }
+
+        public bool IsValidInputData()
+        {
+            bool setting = CountTests > 0
+                && Accuracy > 0.000001
+                && Accuracy < 1;
+            bool scenario =  
+                 (Scenario.IsInputPolinome || Scenario.IsInputStep ||
+                    Scenario.IsInputBorder || Scenario.IsInputMethod);
+            bool border = Input != null
+                            && (!Scenario.IsInputBorder
+                                || (!string.IsNullOrEmpty(Input.LeftBoundary)
+                                    && !string.IsNullOrEmpty(Input.RightBoundary)
+                                    && Input.IsValidBoundary()));
+            bool method = Input != null
+                            && (!Scenario.IsInputMethod
+                                || (!string.IsNullOrEmpty(Input.Method.Value)
+                                    && Input.IsValidMethod));
+            bool polinome = Input != null
+                            && (!Scenario.IsInputPolinome
+                                || (!string.IsNullOrEmpty(Input.Polynome)
+                                    && Input.IsValidPolynome()));
+            bool step = Input != null
+                && (!Scenario.IsInputStep
+                    || !string.IsNullOrEmpty(Input.Step)
+                    && Input.IsValidStep);
+
+            bool n = !(Scenario.IsInputPolinome && Scenario.IsInputBorder && Scenario.IsInputMethod &&
+                       Scenario.IsInputStep);
+
+            return setting && scenario && polinome && method && step && n;
+        }
+
     }
 }
