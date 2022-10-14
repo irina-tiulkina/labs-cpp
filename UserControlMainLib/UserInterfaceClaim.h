@@ -63,7 +63,7 @@ namespace UserControlMainLib {
       const std::string& infoForGetDataFromFile,
       const std::string& infoForGetDataFromConsole
     ) const;
-
+    virtual ~UserInterfaceClaim() = default;
   public:
 
     std::string GetTitleTask() const;
